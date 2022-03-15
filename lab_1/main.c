@@ -26,7 +26,7 @@ long double ldouble_get_value_horner(long double *poly, int len, long double arg
     long double prod = poly[len-1];
     for (int i=len-2; i>=0; i--) {
         prod = prod * arg + poly[i];
-        printf("PROD: %.15Lf\n", prod);
+        // printf("PROD: %.15Lf\n", prod);
     }
     return prod;
 }
