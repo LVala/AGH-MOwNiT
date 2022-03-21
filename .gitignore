@@ -4,3 +4,7 @@
 *.log
 *.gz
 main
+
+__pycache__
+
+.vscode
