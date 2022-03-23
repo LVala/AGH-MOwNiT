@@ -1,71 +1,56 @@
-from typing import Callable
-
 import numpy as np
+
+from utils import gen_points_chebyshev, gen_points_equally, newton_intpol, lagrange_intpol
 from plotting import plot_from_func
 
-# Horner algorithm for polynomial in Newton form
-def horner_newton(x_array: list[float], b_array: list[float], arg: float) -> float:
-    # len(b_array) == n + 1
-    prod = b_array[len(b_array)-1]  # n'th elemen
-    for i in range(len(b_array)-2, -1, -1):
-        prod = prod*(arg - x_array[i]) + b_array[i]
+def get_accuracy_sqr(func1, func2, left_end, right_end, points):
+    prod = 0
+    array = np.linspace(left_end, right_end, points)
+    for i in array:
+        prod += (func1(i) - func2(i))**2
     return prod
 
-# functions generating points (equally distributed or distributed based on Chebyshev nodes)
-def gen_points_equally(func: Callable[[float], float], left_end: int, right_end: int, num_of_points: int) -> tuple[list[float], list[float]]:
-    array_x = np.linspace(left_end, right_end, num_of_points)
-    array_y = [func(i) for i in array_x]
-    return array_x.tolist(), array_y
-
-def gen_points_chebyshev(func: Callable[[float], float], left_end: int, right_end: int, num_of_points: int) -> tuple[list[float], list[float]]:
-    cheb = lambda x: (left_end + right_end)/2 + ((right_end - left_end)*np.cos(((2*x+1)*np.pi)/(2*num_of_points)))/2
-    array_x = [cheb(i) for i in range(num_of_points)]
-    array_y = [func(i) for i in array_x]
-    return array_x, array_y
-
-# Lagrange interpolation
-def lagrange_intpol(x_array: list[float], y_array: list[float]) -> Callable[[float], float]:
-    m = [1]*len(x_array)
-    for k in range(len(x_array)):
-        for i in range(len(x_array)):
-            if (i == k): continue
-            m[k] *= (x_array[k] - x_array[i])
-
-    def func(x: float) -> float:
-        prod = 0
-        for k in range(len(x_array)):  # len(x_array) == n+1
-            d_k = 1
-            for i in range(len(x_array)):
-                if (i == k): continue
-                d_k *= (x-x_array[i])
-            prod += y_array[k] * d_k/m[k]
-        return prod
-
-    return func
-
-# Newton interpolation
-def newton_intpol(x_array: list[float], y_array: list[float]) -> Callable[[float], float]:
-    f_array = [[None]*len(x_array) for i in range(len(x_array))]
-    for i in range(len(x_array)): f_array[i][i] = y_array[i]
-    
-    def diff(i: int, j: int) -> float:
-        if f_array[i][j] != None: return f_array[i][j]
-        f_array[i][j] = (diff(i+1, j) - diff(i, j-1))/(x_array[j] - x_array[i])
-        return f_array[i][j]
-
-    diff(0, len(x_array) - 1)
-
-    def func(x: float) -> float:
-        return horner_newton(x_array, f_array[0], x)
-
-    return func
+def get_accuracy_abs(func1, func2, left_end, right_end, points):
+    prod = 0
+    array = np.linspace(left_end, right_end, points)
+    for i in array:
+        prod += abs(func1(i) - func2(i))
+    return prod
 
 
-f = lambda x: 1/(1+(25*(x**2)))  # -1 <= x <= 1
+f = lambda x: x**2 - 4*np.cos((np.pi*x)/0.5)
+left_end = -6
+right_end = 6
 
-a_1, b_1 = gen_points_equally(f, -1, 1, 10)
-a_2, b_2 = gen_points_chebyshev(f, -1, 1, 10)
-func_1 = lagrange_intpol(a_1, b_1)
-func_2 = lagrange_intpol(a_2, b_2)
+num_of_points = 50
 
-plot_from_func([func_1, func_2], ["lagrange - 10 points equally", "lagrange - 10 points Chebyshev"], -1, 1, 2000)
+cheb_x, cheb_y = gen_points_chebyshev(f, left_end, right_end, num_of_points)
+eql_x, eql_y = gen_points_equally(f, left_end, right_end, num_of_points)
+
+newt_cheb = newton_intpol(cheb_x, cheb_y)
+newt_eql = newton_intpol(eql_x, eql_y)
+lagr_cheb = lagrange_intpol(cheb_x, cheb_y)
+lagr_eql = lagrange_intpol(eql_x, eql_y)
+
+print("ACCURACY CHEB", get_accuracy_sqr(f, newt_cheb, left_end, right_end, 1000))
+print("ACCURACY EQL", get_accuracy_sqr(f, newt_eql, left_end, right_end, 1000))
+
+
+# plot_from_func([f, newt_cheb, newt_eql], ["f", "newton chebyshev", "newton equally"], left_end, right_end, 2000, [(cheb_x, cheb_y), (eql_x, eql_y)])
+plot_from_func([f, lagr_cheb], ["f", "lagrange chebyshev"], left_end, right_end, 2000, [(cheb_x, cheb_y), (eql_x, eql_y)])
+
+
+best_poly = 1
+best_poly_acc = float('inf')
+# for i in range(1, 100):
+#     x, y = gen_points_chebyshev(f, left_end, right_end, i)
+#     newt = newton_intpol(x, y)
+#     acc = get_accuracy_sqr(f, newt, left_end, right_end, 10000)
+#     if (acc < best_poly_acc):
+#         best_poly = i
+#         best_poly_acc = acc
+
+print(best_poly)
+best_x, best_y = gen_points_chebyshev(f, left_end, right_end, 40)
+best_newt = lagrange_intpol(best_x, best_y)
+# plot_from_func([best_newt], [f"najlepszy newton, dla {best_poly} pkt"], left_end, right_end, 2000)
