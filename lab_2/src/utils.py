@@ -59,12 +59,17 @@ def newton_intpol(x_array: list[float], y_array: list[float]) -> Callable[[float
 
     return func
 
+# accuracy calculation
+def get_accuracy_sqr(func1: Callable[[float], float], func2: Callable[[float], float], left_end: int, right_end: int, points: int) -> float:
+    prod = 0
+    array = np.linspace(left_end, right_end, points)
+    for i in array:
+        prod += (func1(i) - func2(i))**2
+    return prod/points
 
-# f = lambda x: 1/(1+(25*(x**2)))  # -1 <= x <= 1
-
-# a_1, b_1 = gen_points_equally(f, -1, 1, 10)
-# a_2, b_2 = gen_points_chebyshev(f, -1, 1, 10)
-# func_1 = lagrange_intpol(a_1, b_1)
-# func_2 = lagrange_intpol(a_2, b_2)
-
-# plot_from_func([func_1, func_2], ["lagrange - 10 points equally", "lagrange - 10 points Chebyshev"], -1, 1, 2000)
+def get_accuracy_abs(func1: Callable[[float], float], func2: Callable[[float], float], left_end: int, right_end: int, points: int) -> float:
+    prod = 0
+    array = np.linspace(left_end, right_end, points)
+    for i in array:
+        prod += abs(func1(i) - func2(i))
+    return prod/points
