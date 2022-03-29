@@ -22,40 +22,36 @@ def gen_points_chebyshev(func: Callable[[float], float], left_end: int, right_en
     array_y = [func(i) for i in array_x]
     return array_x, array_y
 
-# Lagrange interpolation
-def lagrange_intpol(x_array: list[float], y_array: list[float]) -> Callable[[float], float]:
-    m = [1]*len(x_array)
-    for k in range(len(x_array)):
-        for i in range(len(x_array)):
-            if (i == k): continue
-            m[k] *= (x_array[k] - x_array[i])
+# Hermite interpolation
+def hermite_intpol(x_array: list[float], y_array: list[list[float]]) -> Callable[[float], float]:
+    m_array = [len(i) for i in y_array]
+    len_m = sum(m_array)
+    f_array = [[None]*len_m for i in range(len_m)]
+    lin_x_array = [None for i in range(len_m)]
 
-    def func(x: float) -> float:
-        prod = 0
-        for k in range(len(x_array)):  # len(x_array) == n+1
-            d_k = 1
-            for i in range(len(x_array)):
-                if (i == k): continue
-                d_k *= (x-x_array[i])
-            prod += y_array[k] * d_k/m[k]
-        return prod
-
-    return func
-
-# Newton interpolation
-def newton_intpol(x_array: list[float], y_array: list[float]) -> Callable[[float], float]:
-    f_array = [[None]*len(x_array) for i in range(len(x_array))]
-    for i in range(len(x_array)): f_array[i][i] = y_array[i]
+    k = 0
+    for i in range(len(m_array)):
+        for j in range(m_array[i]):
+            print(k)
+            lin_x_array[k] = x_array[i]
+            k += 1
     
+    k = 0
+    for val_i in y_array:
+        for j in range(len(val_i)):
+            for m in range(j+1):
+                f_array[k-m][k] = val_i[m]/np.math.factorial(m)
+            k += 1
+
     def diff(i: int, j: int) -> float:
         if f_array[i][j] != None: return f_array[i][j]
-        f_array[i][j] = (diff(i+1, j) - diff(i, j-1))/(x_array[j] - x_array[i])
-        return f_array[i][j]
+        f_array[i][j] = (diff(i+1, j) - diff(i, j-1))/(lin_x_array[j] - lin_x_array[i])
+        return f_array[i][j]    
 
-    diff(0, len(x_array) - 1)
-
+    diff(0, len_m - 1)
+    
     def func(x: float) -> float:
-        return horner_newton(x_array, f_array[0], x)
+        return horner_newton(lin_x_array, f_array[0], x)
 
     return func
 
@@ -71,5 +67,6 @@ def get_accuracy_abs(func1: Callable[[float], float], func2: Callable[[float], f
     prod = 0
     array = np.linspace(left_end, right_end, points)
     for i in array:
-        prod += abs(func1(i) - func2(i))
-    return prod/points
+        temp = abs(func1(i) - func2(i))
+        prod = max(prod, temp)
+    return prod
