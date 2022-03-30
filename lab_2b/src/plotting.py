@@ -11,7 +11,7 @@ def plot_from_array(array_x: list[float], array_y: list[float]) -> None:
 
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
-    ax.plot(array_x, array_y, color="black", marker=".")  # marker='.'
+    ax.plot(array_x, array_y, color="black", marker=".")
     plt.xlabel("x")
     plt.ylabel("f(x)")
 

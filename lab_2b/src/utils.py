@@ -11,15 +11,15 @@ def horner_newton(x_array: list[float], b_array: list[float], arg: float) -> flo
     return prod
 
 # functions generating points (equally distributed or distributed based on Chebyshev nodes)
-def gen_points_equally(func: Callable[[float], float], left_end: int, right_end: int, num_of_points: int) -> tuple[list[float], list[float]]:
+def gen_points_equally(func: Callable[[float], float], d_func: Callable[[float], float], left_end: int, right_end: int, num_of_points: int) -> tuple[list[float], list[float]]:
     array_x = np.linspace(left_end, right_end, num_of_points)
-    array_y = [func(i) for i in array_x]
+    array_y = [[func(i), d_func(i)] for i in array_x]
     return array_x.tolist(), array_y
 
-def gen_points_chebyshev(func: Callable[[float], float], left_end: int, right_end: int, num_of_points: int) -> tuple[list[float], list[float]]:
+def gen_points_chebyshev(func: Callable[[float], float], d_func: Callable[[float], float], left_end: int, right_end: int, num_of_points: int) -> tuple[list[float], list[float]]:
     cheb = lambda x: (left_end + right_end)/2 + ((right_end - left_end)*np.cos(((2*x+1)*np.pi)/(2*num_of_points)))/2
     array_x = [cheb(i) for i in range(num_of_points)]
-    array_y = [func(i) for i in array_x]
+    array_y = [[func(i), d_func(i)] for i in array_x]
     return array_x, array_y
 
 # Hermite interpolation
@@ -32,7 +32,6 @@ def hermite_intpol(x_array: list[float], y_array: list[list[float]]) -> Callable
     k = 0
     for i in range(len(m_array)):
         for j in range(m_array[i]):
-            print(k)
             lin_x_array[k] = x_array[i]
             k += 1
     
