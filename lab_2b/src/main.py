@@ -22,10 +22,10 @@ for num_of_points in range(3,51):
     herm_eql = hermite_intpol(eql_x, eql_y)
 
     plot_from_func([f, herm_cheb, herm_eql], ["f", "Hermite chebyshev", "Hermite equally"], left_end, right_end, 2000, [(cheb_x, vals_cheb_y), (eql_x, vals_eql_y)], f"{num_of_points} Points")
-    # plot_from_func([f, herm_cheb], ["f", "Hermite chebyshev"], left_end, right_end, 2000, [(cheb_x, vals_cheb_y), (eql_x, vals_eql_y)], f"{num_of_points} Points")
+    plot_from_func([f, herm_cheb], ["f", "Hermite chebyshev"], left_end, right_end, 2000, [(cheb_x, vals_cheb_y), (eql_x, vals_eql_y)], f"{num_of_points} Points")
 
-    # print(f"{num_of_points} points SQR: HERMITE CHEB = {get_accuracy_sqr(f, herm_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_sqr(f, herm_eql, left_end, right_end, 1000):.2f}")
-    # print(f"{num_of_points} points ABS: HERMITE CHEB = {get_accuracy_abs(f, herm_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_abs(f, herm_eql, left_end, right_end, 1000):.8f}")
+    print(f"{num_of_points} points SQR: HERMITE CHEB = {get_accuracy_sqr(f, herm_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_sqr(f, herm_eql, left_end, right_end, 1000):.3f}")
+    print(f"{num_of_points} points ABS: HERMITE CHEB = {get_accuracy_abs(f, herm_cheb, left_end, right_end, 1000):.3f}, EQL = {get_accuracy_abs(f, herm_eql, left_end, right_end, 1000):.3f}")
 
 
 # searching for the best polynomial

@@ -46,3 +46,6 @@ def plot_from_func(funcs: list[Callable[[float], float]],
         ax.legend()
     
     plt.show()
+    # a = title.split(" ")[0]
+    # plt.savefig(f"../img/herm_{a}")
+    # plt.close()
