@@ -21,11 +21,11 @@ for num_of_points in range(1,51,2):
     lagr_cheb = lagrange_intpol(cheb_x, cheb_y)
     lagr_eql = lagrange_intpol(eql_x, eql_y)
 
-    # plot_from_func([f, newt_cheb, newt_eql], ["f", "Newton chebyshev", "Newton equally"], left_end, right_end, 2000, [(cheb_x, cheb_y), (eql_x, eql_y)], f"{num_of_points} Points")
-    # plot_from_func([f, lagr_cheb, lagr_eql], ["f", "Lagrange chebyshev", "Lagrange equally"], left_end, right_end, 2000, [(cheb_x, cheb_y), (eql_x, eql_y)], f"{num_of_points} Points")
+    plot_from_func([f, newt_cheb, newt_eql], ["f", "Newton chebyshev", "Newton equally"], left_end, right_end, 2000, [(cheb_x, cheb_y), (eql_x, eql_y)], f"{num_of_points} Points")
+    plot_from_func([f, lagr_cheb, lagr_eql], ["f", "Lagrange chebyshev", "Lagrange equally"], left_end, right_end, 2000, [(cheb_x, cheb_y), (eql_x, eql_y)], f"{num_of_points} Points")
 
-    # print(f"{num_of_points} points SQR: NEWTON CHEB = {get_accuracy_sqr(f, newt_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_sqr(f, newt_eql, left_end, right_end, 1000):.2f} \
-    #     LAGRANGE CHEB = {get_accuracy_sqr(f, lagr_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_sqr(f, lagr_eql, left_end, right_end, 1000):.2f}")
+    print(f"{num_of_points} points SQR: NEWTON CHEB = {get_accuracy_sqr(f, newt_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_sqr(f, newt_eql, left_end, right_end, 1000):.2f} \
+        LAGRANGE CHEB = {get_accuracy_sqr(f, lagr_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_sqr(f, lagr_eql, left_end, right_end, 1000):.2f}")
     print(f"{num_of_points} points ABS: NEWTON CHEB = {get_accuracy_abs(f, newt_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_abs(f, newt_eql, left_end, right_end, 1000):.8f} \
         LAGRANGE CHEB = {get_accuracy_abs(f, lagr_cheb, left_end, right_end, 1000):.8f}, EQL = {get_accuracy_abs(f, lagr_eql, left_end, right_end, 1000):.8f}")
     

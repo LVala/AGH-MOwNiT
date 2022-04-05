@@ -29,18 +29,19 @@ for num_of_points in range(3,51):
 
 
 # searching for the best polynomial
-# best_poly = 1
-# best_poly_acc = float('inf')
-# for i in range(1, 100):
-#     x, y = gen_points_chebyshev(f, left_end, right_end, i)
-#     herm = hermite_intpol(x, y)
-#     acc = get_accuracy_sqr(f, herm, left_end, right_end, 10000)
-#     if (acc < best_poly_acc):
-#         print(i)
-#         best_poly = i
-#         best_poly_acc = acc
+best_poly = 1
+best_poly_acc = float('inf')
+for i in range(1, 100):
+    cheb_x, cheb_y = gen_points_chebyshev(f, d_f, left_end, right_end, num_of_points)
 
-# print(best_poly)
-# best_x, best_y = gen_points_chebyshev(f, left_end, right_end, 40)
-# best_newt = hermite_intpol(best_x, best_y)
-# plot_from_func([best_newt], [f"najlepszy newton, dla {best_poly} pkt"], left_end, right_end, 2000)
+    herm_cheb = hermite_intpol(cheb_x, cheb_y)
+    acc = get_accuracy_sqr(f, herm_cheb, left_end, right_end, 1000)
+    if (acc < best_poly_acc):
+        print(i)
+        best_poly = i
+        best_poly_acc = acc
+
+print(best_poly)
+best_x, best_y = gen_points_chebyshev(f, left_end, right_end, 40)
+best_newt = hermite_intpol(best_x, best_y)
+plot_from_func([best_newt], [f"najlepszy hermite, dla {best_poly} pkt"], left_end, right_end, 2000)
