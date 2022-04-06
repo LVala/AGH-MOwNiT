@@ -11,7 +11,7 @@ right_end = 6
 f = lambda x: x**2 - m*np.cos((np.pi*x)/k)
 d_f = lambda x: 2*x + m*np.sin((np.pi*x)/k)*np.pi/k
 
-for num_of_points in range(3,51):
+for num_of_points in range(13,14):
     cheb_x, cheb_y = gen_points_chebyshev(f, d_f, left_end, right_end, num_of_points)
     eql_x, eql_y = gen_points_equally(f, d_f, left_end, right_end, num_of_points)
     vals_cheb_y = [i[0] for i in cheb_y]

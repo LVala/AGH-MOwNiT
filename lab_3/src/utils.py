@@ -1,3 +1,4 @@
+from re import A
 from typing import Callable
 
 import numpy as np
@@ -39,11 +40,44 @@ def get_accuracy_abs(func1: Callable[[float], float], func2: Callable[[float], f
     return prod
 
 # spline functions interpolation
-def quadratic_spline(x_array: list[float], y_array: list[float], boundaries_mode: int) -> list[Callable[[float], float]]:
+def quadratic_spline(x_array: list[float], y_array: list[float], boundaries_mode: int) -> Callable[[float], float]:
+    n = len(x_array)
+    A_matrix = [[0]*(3*(n-1)) for _ in range(3*(n-1))]
+    B_matrix = [0 for _ in range(3*(n-1))]
 
-    return
+    for i in range(n-1):
+        A_matrix[i][i] = 1
+        A_matrix[i][n-1+i] = x_array[i]
+        A_matrix[i][2*(n-1)+i] = x_array[i]**2
+        B_matrix[i] = y_array[i]
+    
+    for i in range(n-1, 2*(n-1)):
+        A_matrix[i][i] = 1
+        A_matrix[i][n-1+i] = x_array[i+1]
+        A_matrix[i][2*(n-1)+i] = x_array[i+1]**2
+        B_matrix[i] = y_array[i+1]
 
-def cubic_spline(x_array: list[float], y_array: list[float], boundaries_mode: int) -> list[Callable[[float], float]]:
+    for i in range(2*(n-1), 3*(n-1)-1):
+        A_matrix[i][n-1+i] = 1
+        A_matrix[i][n+i] = -1
+        A_matrix[i][2*(n-1)+i] = 2*x_array[i+1]
+        A_matrix[i][2*(n-1)+i+1] = -2*x_array[i+1]
+
+    if boundaries_mode == 1:
+        # TODO
+        A_matrix[3*(n-1)-1] = 123131
+        pass
+
+    X_matrix = np.linalg.solve(np.array(A_matrix), np.array(B_matrix))
+
+    def func(x):
+        for i in range(n-1):
+            if x_array[i] <= x < x_array[i+1]:
+                return X_matrix[i] + X_matrix[n-1+i]*x + X_matrix[2*(n-1)+i]*(x**2)
+
+    return func
+
+def cubic_spline(x_array: list[float], y_array: list[float], boundaries_mode: int) -> Callable[[float], float]:
     n = len(x_array)
     h_array = [x_array[i+1] - x_array[i] for i in range(n - 1)]
     delta_array = [(y_array[i+1] - y_array[i])/h_array[i] for i in range(n - 1)]
