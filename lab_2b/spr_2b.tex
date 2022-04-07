@@ -31,7 +31,7 @@ Gdzie $k=\frac{1}{2}$, $m=4$ oraz $x\in [-6,6]$.
 \section{Opracowanie}
 Do skonstruowania wielomianu użyty zostanie załączony program w języku Python. Zakres liczb węzłów, dla których
 badane będą wielomiany wynosi 3-50, gdzie dla każdego węzła rozważana jest wartość funkcji w punkcie i jej pierwsza pochodna
-(20 węzłów = 40 informacji).
+(czyli np. 20 węzłów = 40 informacji).
 
 \begin{figure}[H]
     \centering
@@ -54,9 +54,21 @@ są do siebie niejako styczne) są równe.
     \caption{Metoda Hermite'a dla 10 punktów - efekt Rungego}
 \end{figure}
 
-Dla 10 węzłów rozmieszczonych równomiernie zaczyna pojawiać się efekt Rungego, pogłębia się dla większych liczb węzłów.
+Dla 10 węzłów rozmieszczonych równomiernie zaczyna pojawiać się efekt Rungego, pogłębia się dla większych liczb węzłów
+(dla porównania, w zagadnieniu Lagrange'a pojawiał się przy 18 węzłach).
 Co za tym idzie, równomierne rozmieszczenie nie skutkuje zadowalającym przybliżeniem funkcji $f$. 
 Dla punktów rozmieszczonych według węzłów Czebyszewa efekt nie występuje.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/herm_13.png}
+    \caption{Metoda Hermite'a dla 13 punktów}
+\end{figure}
+
+Dla 13 węzłów (26 informacji) można zaobserwować pewne zjawisko: pomimo tego, że efekt Rungego wystąpił dla mniejszej
+liczby węzłów, tutaj nie występuje (być może jest to związane z faktem, że węzły występują prawie idealnie w minimach funkcji).
+Dla zagadnienia Lagrange'a prze 13 węzłach efekt Rungego jeszcze nie występuje (wielomian jest 12 stopnia, tutaj: 25).
+
 
 Poniżej wykresy już tylko dla rozmieszczenia według węzłów Czebyszewa:
 
@@ -72,7 +84,7 @@ Poniżej wykresy już tylko dla rozmieszczenia według węzłów Czebyszewa:
     \caption{Metoda Hermite'a dla 18 punktów}
 \end{figure}
 
-Na powyższych wykresach można zauważyć ciekawe zjawisko: dla nieparzystej ilości punktów środkowy zawsze występuje w punkcie 0, co
+Na powyższych wykresach można zauważyć ciekawe zjawisko: dla nieparzystej liczby punktów środkowy zawsze występuje w punkcie 0, co
 w połączeniu z faktem, że funkcja ma minimum lokalne w punkcie 0 (pochodna równa 0), sprawia, że dla wielomianu interpolacyjnego czasem
 wystepuje tam również minimum (dobre przybliżenie), a czasem maksimum (słabe przybliżenie).
 
@@ -82,9 +94,9 @@ wystepuje tam również minimum (dobre przybliżenie), a czasem maksimum (słabe
     \caption{Metoda Hermite'a dla 20 punktów}
 \end{figure}
 
-Dla 20 węzłów można zaobserwować (przy lewym krańcu przedziału) degradację jakości wielomianu i pojawiają się błędy (wielomian nawet
+Dla 20 węzłów (40 informacji) zaczyna występować (przy lewym krańcu przedziału) degradacja jakości wielomianu i pojawiają się błędy (wielomian nawet
 nie przechodzi przez punkty węzłów interpolacyjnych). Problemy te wynikają najprawdopodobniej z błędów obliczeń związanymi z precyzją
-reprezentacji liczb zmiennoprzecinkowych.
+reprezentacji liczb zmiennoprzecinkowych. Dla metody Newtona w zagadnienu Lagrange'a podobny efekt pojawiał się przy 38 węzłach.
 
 \begin{figure}[H]
     \centering
@@ -92,7 +104,7 @@ reprezentacji liczb zmiennoprzecinkowych.
     \caption{Metoda Hermite'a dla 21 punktów}
 \end{figure}
 
-Wraz ze zwiększaiem liczby węzłów efekt pogłębia się. Poniżej przykład dla 35 węzłów:
+Wraz ze zwiększaniem liczby węzłów efekt pogłębia się. Poniżej przykład dla 35 węzłów:
 
 \begin{figure}[H]
     \centering
@@ -154,13 +166,18 @@ Na podstawie tabeli dokładności można dojść do podobnych wniosków co w prz
 węzłów dokładność rośnie do ok. 10 węzłów, potem zaczyna stale spadać, natomiast dla rozmieszczenia według węzłów Czebyszewa
 dokładność rośnie do ok. 21 węzłów, dla większej liczby spada. Liczby węzłów, dla których osiągnięta została najlepsza dokładność
 to: 21 (dla średniej kwadratów różnic) oraz 20 (dla maksimum odległości).
+Porównując z metodą Newtona dla zagadnienia Lagrange'a: tam dokładność (miary średniej kwadratów) ok. 0.4 (najlepsza osiągnięta metodą Hermite'a) 
+została osiągnięta dla 42 węzłów (czyli dla porównywalnej liczby informacji, ale dwa razy większej liczby węzłów). Metoda 
+Hermite'a w ogólności zachowuje się podobnie do metody Newtona dla podobnej liczby informacji (co oznacza, że również cierpi
+z powodu błędów obliczeniowych dla dużych liczb węzłów, z czym nie było problemu w metodzie Lagrange'a).
 
 
 \section{Wnioski}
 Metoda Hermite'a może posłużyć do przybliżania funkcji wielomianami interpolacyjnymi, kiedy, oprócz wartości punktów, znane
 są pochodne w tych punktach. Do skutecznego przybliżenia muszą być zachowane pewne warunki: używanie węzłów Czebyszewa, żeby
 uniknąć efektu Rungego, czy ograniczenie się do pewnej liczby węzłów, powyżej której występują błędy związane z operacjami
-na liczbach zmiennoprzecinkowych.
+na liczbach zmiennoprzecinkowych. Jest również dobrą alternatywą dla metod Newtona oraz Lagrange'a w zagadnieniu Lagrange'a, gdzie dane jest mniej punktów, ale 
+znane (lub przybliżone) są pochodne w tych punktach. 
 
 
 \end{document}
