@@ -51,22 +51,24 @@ def quadratic_spline(x_array: list[float], y_array: list[float], boundaries_mode
         A_matrix[i][2*(n-1)+i] = x_array[i]**2
         B_matrix[i] = y_array[i]
     
-    for i in range(n-1, 2*(n-1)):
-        A_matrix[i][i] = 1
-        A_matrix[i][n-1+i] = x_array[i+1]
-        A_matrix[i][2*(n-1)+i] = x_array[i+1]**2
-        B_matrix[i] = y_array[i+1]
+    for i in range(n-1):
+        A_matrix[n-1+i][i] = 1
+        A_matrix[n-1+i][n-1+i] = x_array[i+1]
+        A_matrix[n-1+i][2*(n-1)+i] = x_array[i+1]**2
+        B_matrix[n-1+i] = y_array[i+1]
 
-    for i in range(2*(n-1), 3*(n-1)-1):
-        A_matrix[i][n-1+i] = 1
-        A_matrix[i][n+i] = -1
-        A_matrix[i][2*(n-1)+i] = 2*x_array[i+1]
-        A_matrix[i][2*(n-1)+i+1] = -2*x_array[i+1]
+    for i in range(n-2):
+        A_matrix[2*(n-1)+i][n-1+i] = 1
+        A_matrix[2*(n-1)+i][n+i] = -1
+        A_matrix[2*(n-1)+i][2*(n-1)+i] = 2*x_array[i+1]
+        A_matrix[2*(n-1)+i][2*(n-1)+i+1] = -2*x_array[i+1]
 
-    if boundaries_mode == 1:
+    if boundaries_mode == 1:  # second derivative at the starting point set to 0
+        A_matrix[3*(n-1)-1][2*(n-1)] = 1
+    elif boundaries_mode == 2: # second derivative at the starting point approximated with difference quotient
         # TODO
-        A_matrix[3*(n-1)-1] = 123131
-        pass
+        A_matrix[3*(n-1)-1][2*(n-1)] = 1
+        B_matrix[2*(n-1)] = (y_array[1]-y_array[0])/(x_array[1]-x_array[0])
 
     X_matrix = np.linalg.solve(np.array(A_matrix), np.array(B_matrix))
 
