@@ -36,7 +36,7 @@ def plot_from_func(funcs: list[Callable[[float], float]],
     plt.title(title)
     plt.xlabel("x")
     plt.ylabel("f(x)")
-    ax.plot(knots[0], knots[1], linestyle="None", marker="o", markerfacecolor="black", label="Equal points")
+    ax.plot(knots[0], knots[1], linestyle="None", marker="o", markerfacecolor="orange", label="Equal points")
     
     for func, name, mcolor in zip(funcs, names, mcolors.BASE_COLORS.keys()):
         array_x = np.linspace(left_end, right_end, num_of_points)
@@ -46,5 +46,5 @@ def plot_from_func(funcs: list[Callable[[float], float]],
     
     plt.show()
     # a = title.split(" ")[0]
-    # plt.savefig(f"../img/spline_{a}")
+    # plt.savefig(f"../img/herm_{a}")
     # plt.close()

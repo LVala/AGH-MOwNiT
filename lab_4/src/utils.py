@@ -57,12 +57,12 @@ def quadratic_spline(x_array: list[float], y_array: list[float], boundaries_mode
         A_matrix[2*(n-1)+i][2*(n-1)+i] = 2*x_array[i+1]
         A_matrix[2*(n-1)+i][2*(n-1)+i+1] = -2*x_array[i+1]
 
-    if boundaries_mode == 2:  # second derivative at the starting point set to 0
-        A_matrix[3*(n-1)-1][2*(n-1)] = 2
-    elif boundaries_mode == 1: # first derivative at the starting point approximated with difference quotient
-        A_matrix[3*(n-1)-1][n-1] = 1
-        A_matrix[3*(n-1)-1][2*(n-1)] = 2*x_array[0]
-        B_matrix[3*(n-1)-1] = (y_array[1]-y_array[0])/(x_array[1]-x_array[0])
+    if boundaries_mode == 1:  # second derivative at the starting point set to 0
+        A_matrix[3*(n-1)-1][2*(n-1)] = 1
+    elif boundaries_mode == 2: # second derivative at the starting point approximated with difference quotient
+        # TODO
+        A_matrix[3*(n-1)-1][2*(n-1)] = 1
+        B_matrix[2*(n-1)] = (y_array[1]-y_array[0])/(x_array[1]-x_array[0])
 
     X_matrix = np.linalg.solve(np.array(A_matrix), np.array(B_matrix))
 
