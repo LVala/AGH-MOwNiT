@@ -46,5 +46,5 @@ def plot_from_func(funcs: list[Callable[[float], float]],
     
     plt.show()
     # a = title.split(" ")[0]
-    # plt.savefig(f"../img/spline_{a}")
+    # plt.savefig(f"../img/quadratic_{a}")
     # plt.close()

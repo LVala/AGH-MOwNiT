@@ -57,18 +57,20 @@ def quadratic_spline(x_array: list[float], y_array: list[float], boundaries_mode
         A_matrix[2*(n-1)+i][2*(n-1)+i] = 2*x_array[i+1]
         A_matrix[2*(n-1)+i][2*(n-1)+i+1] = -2*x_array[i+1]
 
-    if boundaries_mode == 2:  # second derivative at the starting point set to 0
-        A_matrix[3*(n-1)-1][2*(n-1)] = 2
-    elif boundaries_mode == 1: # first derivative at the starting point approximated with difference quotient
+    delta = lambda i: (y_array[i+1] - y_array[i])/(x_array[i+1] - x_array[i])
+    delta_2 = lambda i: (delta(i+1) - delta(i))/(x_array[i+2] - x_array[i])
+
+    if boundaries_mode == 1:  # second derivative at the starting point set to 0
+        A_matrix[3*(n-1)-1][2*(n-1)] = 1
+    elif boundaries_mode == 2: # # second derivative at the starting point approximated with difference quotient
         A_matrix[3*(n-1)-1][n-1] = 1
-        A_matrix[3*(n-1)-1][2*(n-1)] = 2*x_array[0]
-        B_matrix[3*(n-1)-1] = (y_array[1]-y_array[0])/(x_array[1]-x_array[0])
+        B_matrix[3*(n-1)-1] = delta_2(0)
 
     X_matrix = np.linalg.solve(np.array(A_matrix), np.array(B_matrix))
 
     def func(x):
         for i in range(n-1):
-            if x_array[i] <= x < x_array[i+1]:
+            if x_array[i] <= x <= x_array[i+1]:
                 return X_matrix[i] + X_matrix[n-1+i]*x + X_matrix[2*(n-1)+i]*(x**2)
 
     return func
@@ -108,7 +110,7 @@ def cubic_spline(x_array: list[float], y_array: list[float], boundaries_mode: in
         
     def func(x):
         for i in range(n-1):
-            if x_array[i] <= x < x_array[i+1]:
+            if x_array[i] <= x <= x_array[i+1]:
                 return y_array[i] + b_i[i]*(x - x_array[i]) + c_i[i]*(x - x_array[i])**2 + d_i[i]*(x - x_array[i])**3
         
     return func
