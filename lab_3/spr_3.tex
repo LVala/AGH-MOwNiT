@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \usepackage{polski}
-\usepackage{amsmath}
+\usepackage{amsmath, array}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{subfig}
@@ -26,7 +26,88 @@ Badana funkcja:
 Gdzie $k=\frac{1}{2}$, $m=4$ oraz $x\in [-6,6]$.
 
 \section{Opracowanie}
-\subsection{Wielomiany interpolacyjne}
+\subsection{Wyprowadzenie układu równań}
+Układ równań dla funkcji sklejanych trzeciego stopnia został wyprowadzony na wykładzie, 
+stąd nie będzie przedstawiany, warunki brzegowe dla funkcji obu stopni 
+zostaną szczegółowo opisane w sekcji 2.3. Tutaj natomiast zostanią wyprowadzone równania
+oraz układ potrzebny do stworzenia funkcji sklejanych drugiego stopnia.
+
+Dla $n+1$ punktów ($x_0$ do $x_n$) konieczne będzie skonstruowanie $n$ funkcji w postaci
+\[s_i(x)=a_i+b_ix+c_ix^2\]
+co oznacza potrzebę znalezienia $3n$ niewiadomych, więc potrzebny będzie układ $3n$ równań.
+Funkcje $s_i$ muszą spełniać warunki:
+\begin{itemize}
+    \item
+    $\displaystyle\mathop \forall_{i\in\{0..n-1\}} \: s_i(x_i) = y_i \Leftrightarrow
+    \displaystyle\mathop \forall_{i\in\{0..n-1\}} \: a_i+b_ix_i+c_ix_i^2 = y_i$
+    \item
+    $\displaystyle\mathop \forall_{i\in\{0..n-1\}} \: s_i(x_{i+1}) = y_{i+1} \Leftrightarrow
+    \displaystyle\mathop \forall_{i\in\{0..n-1\}} \: a_i+b_ix_{i+1}+c_ix_{i+1}^2 = y_{i+1}$
+    \item
+    $\displaystyle\mathop \forall_{i\in\{0..n-2\}} \: s'_i(x_{i+1}) = s'_{i+1}(x_{i+1}) \Leftrightarrow
+    \displaystyle\mathop \forall_{i\in\{0..n-2\}} \: b_i+2c_ix_{i+1}-b_{i+1}-2c_{i+1}x_{i+1} = 0$
+\end{itemize}
+
+Co daje $3n-1$ równań, do tego jeden warunek brzegowy. Macierz układu równań będzie wyglądać
+następująco
+\[
+\begin{bmatrix}
+1 & x_0 & x_0^2 & 0 & 0 & 0 & 0 & \hdots & 0 \\
+1 & x_1 & x_1^2 & 0 & 0 & 0 & 0 & \hdots & 0 \\
+0 & 0 & 0 & 1 & x_1 & x_1^2 & 0 & \hdots & 0 \\
+\vdots &&&& \vdots &&&& \vdots \\
+0 & 0 & 0 & 0 & \hdots & 0 & 1 & x_n & x_n^2 \\
+0 & 1 & 2x_1 & 0 & -1 & -2x_1 & 0 & \hdots & 0 \\
+\vdots &&&& \vdots &&&& \vdots \\
+0 & 0 & \hdots & 0 & 1 & 2x_{n-1} & 0 & -1 & -2x_{n-1} \\
+? & ? & \hdots & ? & ? & ? & ? & ? & ?\\ 
+\end{bmatrix}
+\:
+\begin{bmatrix}
+a_0 \\
+b_0 \\
+c_0 \\
+a_1 \\
+b_1 \\
+\vdots \\
+a_{n-1} \\
+b_{n-1} \\
+c_{n-1} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_0 \\
+y_1 \\
+y_1 \\
+y_2 \\
+\vdots \\
+y_{n-2} \\
+y_{n-1} \\
+y_{n-1} \\
+y_n \\
+0 \\
+0 \\
+\vdots \\
+0 \\
+? \\
+\end{bmatrix}
+\]
+
+Gdzie zawartość ostatniego wiersza zależy od wybranego warunku brzegowego (opisane w sekcji 2.3).
+Uwaga! W załączonym programie użyty układ równań jest identyczny, jednak macierze nieznacznie się różnią, 
+np. macież szukanych jest następująca
+\[
+\begin{bmatrix}
+a_0 & \hdots & a_{n-1} & b_0 & \hdots & b_{n-1} & c_0 & \hdots & c_{n-1} \\
+\end{bmatrix}
+\]
+
+Oraz analogicznie zmieniona macież współczynników, tak żeby zawierała wyprowadzone wcześniej równania.
+Użycie w opisie powyższych macierzy jest uzasadnione tym, że w wersji z programu współczynniki
+jednego równania nie znajdują się w sąsiednich kolumnach macierzy, lecz oddzielone są wieloma kolumnami
+zer, co jest trudne do zapisania w przejrzysty i łatwy do interpretacji sposób.  
+
+\subsection{Porównanie wykresów}
 Do skonstruowania wielomianów i narysowania wykresów zostanie użyty załączony program w języku Python.
 Pierwszym krokiem będzie zbadanie zachowania i różnic pomiędzy wielomianami sklejanymi drugiego oraz trzeciego 
 stopnia. Różnice wynikające z zmiany warunków brzegowych zostaną zbadane w kolejnej sekcji. Warunki brzegowe użyte tutaj:
@@ -115,16 +196,48 @@ Zarówno dla wielomianów interpolowanych sklejanymi funkcjami trzeciego jak i d
     \begin{itemize}
         \item
         warunek 1 - przybliżanie trzecich pochodnych w pierwszym i ostatnim węźle ilorazami różnicowymi,
+        wyprowadzony na wykładzie,
         \item
         warunek 2, free boundary - drugie pochodne w pierwszym i ostatnim węźle zastąpione zerami,
+        $\sigma_0 = 0$ oraz $\sigma_{n} = 0$, ponieważ (z wykładu) $\sigma_i = \frac{1}{6}s''(x_i)$,
+        gdzie $\sigma_i$ dla $i\in\{1..n\}$ są szukanymi.
     \end{itemize}
     \item
     dla wielomianów drugiego stopnia:
     \begin{itemize}
         \item
-        warunek 1 - zastąpienie pierwszej pochodnej w pierwszym węźle zerem,
+        warunek 1 - zastąpienie drugiej pochodnej w pierwszym węźle zerem.
+        Bazując na wzorach z sekcji 1.1:
+        \[s''_i=2c_i \land s''_0 = 0 \implies c_0 = 0\]
+        wówczas wiersz macieży oznaczony pytajnikami będzie wyglądał następująco
+        \[
+        \begin{bmatrix}
+        0 & 0 & 1 & 0 & \hdots & 0 \\
+        \end{bmatrix}
+        \times
+        \hdots
+        =
+        \begin{bmatrix}
+        0
+        \end{bmatrix}
+        \]
         \item
-        warunek 2 - przybliżanie drugiej pochodnej w pierwszym węźle ilorazem różnicowymi,
+        warunek 2 - przybliżanie drugiej pochodnej w pierwszym węźle ilorazem różnicowymi:
+        \[\Delta_i^{(1)} = \frac{y_{i+1} - y_i}{x_{i+1} - x_i}\]
+        \[\Delta_i^{(2)} = \frac{\Delta_{i+1}^{(1)} - \Delta_{i}^{(1)}}{x_{i+2}-x_i}\]
+        \[2s''_i(x) \approx 2\Delta_i^{(2)} \implies c_0 \approx \Delta_0^{(2)} = \frac{\frac{y_2-y_1}{x_2-x_1}-\frac{y_1-y_0}{x_1-x_0}}{x_2-x_0}\]
+        wówczas wiersz macieży oznaczony pytajnikami będzie wyglądał następująco
+        \[
+        \begin{bmatrix}
+        0 & 0 & 1 & 0 & \hdots & 0 \\
+        \end{bmatrix}
+        \times
+        \hdots
+        =
+        \begin{bmatrix}
+        \frac{\frac{y_2-y_1}{x_2-x_1}-\frac{y_1-y_0}{x_1-x_0}}{x_2-x_0}
+        \end{bmatrix}
+        \]
     \end{itemize}
 \end{itemize}
 
