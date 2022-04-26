@@ -44,7 +44,7 @@ def plot_from_func(funcs: list[Callable[[float], float]],
         ax.plot(array_x, array_y, color=mcolor, label=name,)
         ax.legend()
     
-    plt.show()
-    # a = title.split(" ")[0]
-    # plt.savefig(f"../img/herm_{a}")
-    # plt.close()
+    # plt.show()
+    a = title.split(" ")[0]
+    plt.savefig(f"../img/algpoly_30_{a}")
+    plt.close()
