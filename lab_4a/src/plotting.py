@@ -46,5 +46,5 @@ def plot_from_func(funcs: list[Callable[[float], float]],
     
     # plt.show()
     a = title.split(" ")[0]
-    plt.savefig(f"../img/algpoly_30_{a}")
+    plt.savefig(f"../img/algpoly_24_{a}")
     plt.close()

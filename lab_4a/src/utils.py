@@ -40,7 +40,7 @@ def get_accuracy_abs(func1: Callable[[float], float], func2: Callable[[float], f
 
 # algebraic polynomial approximation
 def algpoly_approx(x_array: list[float], y_array: list[float], w_array: list[float], m: int) -> Callable[[float], float]:
-    if (m > len(x_array)):
+    if (m+1 > len(x_array)):
         print("Error: m must be smaller or equal to length of input points array")
         exit(1)
 
