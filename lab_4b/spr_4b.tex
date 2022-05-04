@@ -103,6 +103,11 @@ Z tych równań można zbudować układ
 \end{bmatrix}    
 \]
 
+Również pod uwagę trzeba wziąć, że punkty z przedziału $[a,b]$ muszą być zawsze (podczas wyliczania wartości macieży oraz podczas wyliczania wartości
+funkcji aproksymującej) mapowane na przedział $[0, 2\pi]$ za pomocą funkcji
+
+$$c(x)=\frac{2\pi (x-a)}{b-a}$$
+
 Do rozwiązania powyższego układu równań użyta została funkcja \textit{linalg.solve} z pakietu \textit{numpy}
 w języku Python.
 
