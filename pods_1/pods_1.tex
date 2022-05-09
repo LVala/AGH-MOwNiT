@@ -64,9 +64,9 @@ po prostu nie jest konieczny.
     \caption{Aproksymacja - funkcja nie musi zawierać punktów}
 \end{figure}
 
-Różnica pomiędzy metodami Lagrange'a a Newtona polega na sposobie konstrukcji wzoru. M. in. metodzie Newtona dodanie nowego
-węzła nie wiąże się z potwarzaniem obliczeń od początku, w metodzia Lagrange'a i trzeba ogólnie wykonywać mniej obliczeń podczas
-wyznaczania wartości funkcji interplującej, natomiast w metodzie Lagrange'a łatwiej utworzyć wzór. W tym konkretnym przypadku
+Różnica pomiędzy metodami Lagrange'a a Newtona polega na sposobie konstrukcji wzoru. W metodzie Newtona dodanie nowego
+węzła nie wiąże się z potwarzaniem obliczeń od początku, w metodzia Lagrange'a trzeba wykonywać mniej obliczeń podczas
+wyznaczania wartości funkcji interplującej jak również łatwiej utworzyć wzór. W tym konkretnym przypadku
 użycie metody Newtona wiązało się niestety z pojawieniem błędów numerycznych:
 
 \begin{figure}[H]
@@ -77,6 +77,12 @@ użycie metody Newtona wiązało się niestety z pojawieniem błędów numeryczn
 
 Podobny efekt wystąpił w metodzie Hermite'a, która jest bardzo podobna do metody Newtona, jednak pozwala również na zastosowanie
 pochodnych w punktach.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/herm_20.png}
+    \caption{Metoda Hermite'a - błędy numeryczne}
+\end{figure}
 
 Również w związku z tym, że funkcja musi zawierać wszystkie punkty na podstawie których jest tworzona, w metodach Newtona i 
 Lagrange'a stopień wielomianu jest duży dla dużej liczby węzłów, co skutkuje problemami: 
@@ -96,7 +102,18 @@ lub zastosowanie innej metody, jaką jest interpolacja funkcjami sklejanymi, kt�
     \caption{Interpolacja splajnami}
 \end{figure}
 
-Interpolacja splajnami wymaga również podania warunków brzegowych
+Interpolacja splajnami wymaga również podania warunków brzegowych. Zastosowany został warunek polegający na przybliżaniu trzecich
+pochodnych ilorazami różnicowymi, inne badane warunki miały bardzo niewielki wpływ na funkcję przybliżającą.
+
+Tutaj zastosowana została interpolacja funkcjami trzeciego stopnia, która jest najczęściej używana w praktyce, 
+jednak można również stosować interpolację funkcjami sklejanymi np. drugiego
+stopnia. Przy niej jednak niekiedy zdażały się problemy jak oscylacja:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/spline_26.png}
+    \caption{Interpolacja splajnami drugiego stopnia - oscylacja}
+\end{figure}
 
 W przypadku aproksymacji średniokwadratowej, z racji tego, że punkty nie muszą należeć do funkcji, wybór stopnia wielomianu
 jest dowolny, o ile liczba węzłów jest wystarczająca do jego skonstruowania:
@@ -107,7 +124,9 @@ jest dowolny, o ile liczba węzłów jest wystarczająca do jego skonstruowania:
     \caption{Aproksymacja średniokwadratowa wielomianami algebraicznymi}
 \end{figure}
 
-W aproksymacji średniokwadratowej wielomianami trygonometrycznymi stosowana są inne funkcje bazowe.
+Dla liczby węzłów dużo większej niż liczba funkcji bazowych zwykle następuje wygładzenie funkcji, np. jak na powyższym wykresie.
+
+W aproksymacji średniokwadratowej wielomianami trygonometrycznymi stosowane są inne funkcje bazowe.
 W tym konkretnym przypadku, ze względu na charakter funkcji $f$ sprawują się one lepiej pod względem dokładności:
 
 \begin{figure}[H]
@@ -124,7 +143,7 @@ Metody interpolacji porónywane będą dla odpowiadających liczb informacji, cz
 węzłów oraz pierwszysch pochodnych dla metody Hermite'a, węzłów dla interpolacji splajnami trzeciego stopnia, 
 węzłów dla aproksymacji, gdzie liczba funkcji bazowych odpowiada liczbie węzłów - 1 (w przypadku użycie liczby funkcji bazowych odpowiadających
 liczbie węzłów wyniki byłby praktycznie jednoznaczne z interpolacją),
-ponieważ to od liczby funkcji bazowych zależy rozmiar macieży układu równań, wydaje się to być uczciwym porównaniem.
+ponieważ to od liczby funkcji bazowych zależy rozmiar macierzy układu równań, wydaje się to być uczciwym porównaniem.
 
 \begin{table}[H]
     \begin{tabular}{|l|l|l|l|l|l|l|}
