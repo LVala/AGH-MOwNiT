@@ -159,7 +159,7 @@ nie ma dużego wpływu na liczbę iteracji.
 \caption{Wyniki dla warunku 1}
 \end{table}
 
-Mniejsza wartość $\rho$ skutkuje większą liczbą cyfr niezmiennych dla każdego punktu startowego.
+Mniejsza wartość $\rho$ skutkuje większą liczbą cyfr niezmiennych (tj. takich, które nie zmieniają się w zależności od punkut startowego).
 
 \begin{table}[H]
 \centering
@@ -190,8 +190,7 @@ Mniejsza wartość $\rho$ skutkuje większą liczbą cyfr niezmiennych dla każd
 \end{table}
 
 Zastosowanie drugiego kryterium stopu daje natomiast mniej dokładne wyniku dla takiej samej wartości $\rho$
-(mniejsza liczba cyfr nizmiennych niezależnie od punktu startowego, dla dokładności 0.000001 kryterium 1 ma niezmienne 11 cyfr po przecinku 
-niezależnie od punktu startu, kryterium 2 tylko 5).
+(mniejsza liczba cyfr nizmiennych niezależnie od punktu startowego).
 
 \subsubsection{Metoda siecznych}
 Żeby zastosować metodę siecznych muszą być spełnione warunki:
@@ -474,6 +473,229 @@ W metodzie Newtona rozważane były wektory początkowe z przedziału [-1,-1,-1]
 w różnych kombinacjach. Taki wybór uzasadniony jest faktem, że w tym przedziale znajdują się wszystkie rozwiązania oraz pozwala on
 na zbadanie przewidywanych zjawisk, jak wektory, dla których metoda nie zbiega do rozwiązania.
 
+Już na początku warto zauważyć, że dla wektora startowego, gdzie $x_3=0$ jakobian ma wyznacznik 0, więc układ jest albo sprzeczny, albo nieoznaczony.
+
+Poniżej tabela z wynikami dla wybranych wektorów startowych (użyta precyzja $\rho=0.000001$, kryterium stopu 1,  "-" oznacza, że nie otrzymano wyniku).
+Pominięte obszary zawierają wektory dla których nie uzyskano wyniku.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Wektor początkowy & Wynik \\ \hline
+[-1.0, -1.0, -1.0] & - \\ \hline
+... & ... \\ \hline
+[-1.0, 0.2, 1.0] & - \\ \hline
+[-1.0, 0.6, -1.0] & [-1.  1. -1.] \\ \hline
+[-1.0, 0.6, -0.6] & [-1.  1. -1.] \\ \hline
+[-1.0, 0.6, -0.2] & [-1.  1. -1.] \\ \hline
+[-1.0, 0.6, 0.2] & [-1.  1.  1.] \\ \hline
+[-1.0, 0.6, 0.6] & [-1.  1.  1.] \\ \hline
+[-1.0, 0.6, 1.0] & [-1.  1.  1.] \\ \hline
+[-1.0, 1.0, -1.0] & [-1.  1. -1.] \\ \hline
+[-1.0, 1.0, -0.6] & [-1.  1. -1.] \\ \hline
+[-1.0, 1.0, -0.2] & [-1.  1. -1.] \\ \hline
+[-1.0, 1.0, 0.2] & [-1.  1.  1.] \\ \hline
+[-1.0, 1.0, 0.6] & [-1.  1.  1.] \\ \hline
+[-1.0, 1.0, 1.0] & [-1.  1.  1.] \\ \hline
+[-0.6, -1.0, -1.0] & - \\ \hline
+... & ... \\ \hline
+[-0.6, 0.2, 1.0] & - \\ \hline
+[-0.6, 0.6, -1.0] & [-1.  1. -1.] \\ \hline
+[-0.6, 0.6, -0.6] & [-1.  1. -1.] \\ \hline
+[-0.6, 0.6, -0.2] & [-1.  1. -1.] \\ \hline
+[-0.6, 0.6, 0.2] & [-1.  1.  1.] \\ \hline
+[-0.6, 0.6, 0.6] & [-1.  1.  1.] \\ \hline
+[-0.6, 0.6, 1.0] & [-1.  1.  1.] \\ \hline
+[-0.6, 1.0, -1.0] & [-1.  1. -1.] \\ \hline
+[-0.6, 1.0, -0.6] & [-1.  1. -1.] \\ \hline
+[-0.6, 1.0, -0.2] & [-1.  1. -1.] \\ \hline
+[-0.6, 1.0, 0.2] & [-1.  1.  1.] \\ \hline
+[-0.6, 1.0, 0.6] & [-1.  1.  1.] \\ \hline
+[-0.6, 1.0, 1.0] & [-1.  1.  1.] \\ \hline
+[-0.2, -1.0, -1.0] & - \\ \hline
+... & ... \\ \hline
+[-0.2, 0.2, 1.0] & - \\ \hline
+[-0.2, 0.6, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[-0.2, 0.6, -0.6] & [0.5 1.  0.5] \\ \hline
+[-0.2, 0.6, -0.2] & [0.5 1.  0.5] \\ \hline
+[-0.2, 0.6, 0.2] & [ 0.5  1.  -0.5] \\ \hline
+[-0.2, 0.6, 0.6] & [ 0.5  1.  -0.5] \\ \hline
+[-0.2, 0.6, 1.0] & [0.5 1.  0.5] \\ \hline
+[-0.2, 1.0, -1.0] & [0.5 1.  0.5] \\ \hline
+[-0.2, 1.0, -0.6] & [0.5 1.  0.5] \\ \hline
+[-0.2, 1.0, -0.2] & [0.5 1.  0.5] \\ \hline
+[-0.2, 1.0, 0.2] & [ 0.5  1.  -0.5] \\ \hline
+[-0.2, 1.0, 0.6] & [ 0.5  1.  -0.5] \\ \hline
+[-0.2, 1.0, 1.0] & [ 0.5  1.  -0.5] \\ \hline
+\end{tabular}
+\quad
+\begin{tabular}{|c|c|}
+\hline
+Wektor początkowy & Wynik \\ \hline
+[0.2, -1.0, -1.0] & - \\ \hline
+... & ... \\ \hline
+[0.2, 0.2, 1.0] & - \\ \hline
+[0.2, 0.6, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[0.2, 0.6, -0.6] & [ 0.5  1.  -0.5] \\ \hline
+[0.2, 0.6, -0.2] & [ 0.5  1.  -0.5] \\ \hline
+[0.2, 0.6, 0.2] & [0.5 1.  0.5] \\ \hline
+[0.2, 0.6, 0.6] & [0.5 1.  0.5] \\ \hline
+[0.2, 0.6, 1.0] & [0.5 1.  0.5] \\ \hline
+[0.2, 1.0, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[0.2, 1.0, -0.6] & [ 0.5  1.  -0.5] \\ \hline
+[0.2, 1.0, -0.2] & [ 0.5  1.  -0.5] \\ \hline
+[0.2, 1.0, 0.2] & [0.5 1.  0.5] \\ \hline
+[0.2, 1.0, 0.6] & [0.5 1.  0.5] \\ \hline
+[0.2, 1.0, 1.0] & [0.5 1.  0.5] \\ \hline
+[0.6, -1.0, -1.0] & - \\ \hline
+... & ... \\ \hline
+[0.6, 0.2, 1.0] & - \\ \hline
+[0.6, 0.6, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[0.6, 0.6, -0.6] & [ 0.5  1.  -0.5] \\ \hline
+[0.6, 0.6, -0.2] & [ 0.5  1.  -0.5] \\ \hline
+[0.6, 0.6, 0.2] & [0.5 1.  0.5] \\ \hline
+[0.6, 0.6, 0.6] & [0.5 1.  0.5] \\ \hline
+[0.6, 0.6, 1.0] & [0.5 1.  0.5] \\ \hline
+[0.6, 1.0, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[0.6, 1.0, -0.6] & [ 0.5  1.  -0.5] \\ \hline
+[0.6, 1.0, -0.2] & [ 0.5  1.  -0.5] \\ \hline
+[0.6, 1.0, 0.2] & [0.5 1.  0.5] \\ \hline
+[0.6, 1.0, 0.6] & [0.5 1.  0.5] \\ \hline
+[0.6, 1.0, 1.0] & [0.5 1.  0.5] \\ \hline
+[1.0, -1.0, -1.0] & - \\ \hline
+... & ... \\ \hline
+[1.0, 0.2, 1.0] & - \\ \hline
+[1.0, 0.6, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[1.0, 0.6, -0.6] & [ 0.5  1.  -0.5] \\ \hline
+[1.0, 0.6, -0.2] & [ 0.5  1.  -0.5] \\ \hline
+[1.0, 0.6, 0.2] & [0.5 1.  0.5] \\ \hline
+[1.0, 0.6, 0.6] & [0.5 1.  0.5] \\ \hline
+[1.0, 0.6, 1.0] & [0.5 1.  0.5] \\ \hline
+[1.0, 1.0, -1.0] & [ 0.5  1.  -0.5] \\ \hline
+[1.0, 1.0, -0.6] & [ 0.5  1.  -0.5] \\ \hline
+[1.0, 1.0, -0.2] & [ 0.5  1.  -0.5] \\ \hline
+[1.0, 1.0, 0.2] & [0.5 1.  0.5] \\ \hline
+[1.0, 1.0, 0.6] & [0.5 1.  0.5] \\ \hline
+[1.0, 1.0, 1.0] & [0.5 1.  0.5] \\ \hline
+\end{tabular}
+\end{table}
+
+W badanym zakresie udało się uzyskać wszystkie rzezcywiste rozwiązania układu równań, jednak dla wielu wektorów startowych żadne z rozwiązań
+nie było osiągalne. Można zauważyć tendencję, że wektor początkowy zbiega do najmniej oddalonego wyniku, choć nie we wszystkich
+przypadkach (np. [-0.2, 1.0, -1.0] zbiega do [0.5, 1.0, -0.5], gdy [-0.2, 1.0, 1.0] zbiega do [0.5, 1.0, 0.5]).
+
+Poniżej tabela z różnymi dokładnościami:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+[-1.0, -1.0, -1.0] & - & - & - & - \\ \hline
+[-0.9, -0.9, -0.9] & - & - & - & - \\ \hline
+[-0.8, -0.8, -0.8] & - & - & - & - \\ \hline
+[-0.7, -0.7, -0.7] & - & - & - & - \\ \hline
+[-0.6, -0.6, -0.6] & - & - & - & - \\ \hline
+[-0.5, -0.5, -0.5] & - & - & - & - \\ \hline
+[-0.4, -0.4, -0.4] & - & - & - & - \\ \hline
+[-0.3, -0.3, -0.3] & - & - & - & - \\ \hline
+[-0.2, -0.2, -0.2] & - & - & - & - \\ \hline
+[-0.1, -0.1, -0.1] & - & - & - & - \\ \hline
+[-0.0, -0.0, -0.0] & - & - & - & - \\ \hline
+[0.1, 0.1, 0.1] & - & - & - & - \\ \hline
+[0.2, 0.2, 0.2] & - & - & - & - \\ \hline
+[0.3, 0.3, 0.3] & [ 0.5  1.  -0.5] & [ 0.5  1.  -0.5] & [ 0.5  1.  -0.5] & [ 0.5  1.  -0.5] \\ \hline
+[0.4, 0.4, 0.4] & [-1.  1.  1.] & [-1.  1.  1.] & [-1.  1.  1.] & [-1.  1.  1.] \\ \hline
+[0.5, 0.5, 0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] \\ \hline
+[0.6, 0.6, 0.6] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] \\ \hline
+[0.7, 0.7, 0.7] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] \\ \hline
+[0.8, 0.8, 0.8] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] \\ \hline
+[0.9, 0.9, 0.9] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] \\ \hline
+[1.0, 1.0, 1.0] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] & [0.5 1.  0.5] \\ \hline
+\end{tabular}
+\caption{Wyniki dla warunku 1}
+\end{table}
+
+Dla warunku 1 niezależnie od przyjętej liczba zer po przecinku jest na tyle duża, że numpy pomija rozszerzenie dziesiętne.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.001 & 0.0001  \\ \hline
+[0.3, 0.3, 0.3] & [ 0.50000005  1.         -0.5000014 ] & [ 0.50000005  1.         -0.5000014 ] \\ \hline
+[0.4, 0.4, 0.4] & [-1.00000942  1.          1.00000334] & [-1.00000942  1.          1.00000334]  \\ \hline
+[0.5, 0.5, 0.5] & [0.5000195  1.         0.49999078] & [0.5000195  1.         0.49999078]  \\ \hline
+[0.6, 0.6, 0.6] & [0.50000028 1.00000014 0.49999975] & [0.50000028 1.00000014 0.49999975]  \\ \hline
+[0.7, 0.7, 0.7] & [0.5000161  1.00002289 0.49999951] & [0.5 1.  0.5] \\ \hline
+[0.8, 0.8, 0.8] & [0.49999997 1.00000047 0.49999931] & [0.49999997 1.00000047 0.49999931]  \\ \hline
+[0.9, 0.9, 0.9] & [0.50000401 1.         0.5000053 ] & [0.50000401 1.         0.5000053 ]  \\ \hline
+[1.0, 1.0, 1.0] & [0.50002289 1.         0.50002289] & [0.50002289 1.         0.50002289]  \\ \hline
+\end{tabular}
+\caption{Wyniki dla warunku 2}
+\end{table}
+
+Dla warunku 2 widać natomiast zauważalne pogorszenie dokładności dla mniejszych wartości precyzji.
+
+Poniżej porównanie liczby iteracji dla wybranych wartości (tylko dla warunku 1, dla warunku 2 wartości była prawie identyczne):
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+    ... & ... & ... & ... & ...\\ \hline
+    [-1.0, 1.0, 0.2] & 6 & 6 & 6 & 7 \\ \hline
+    [-1.0, 1.0, 0.6] & 4 & 4 & 5 & 5 \\ \hline
+    [-1.0, 1.0, 1.0] & 1 & 1 & 1 & 1 \\ \hline
+    ... & ... & ... & ... & ...\\ \hline
+    [-0.6, 0.6, 1.0] & 5 & 5 & 5 & 5 \\ \hline
+    [-0.6, 1.0, -1.0] & 4 & 5 & 5 & 5 \\ \hline
+    [-0.6, 1.0, -0.6] & 4 & 5 & 5 & 5 \\ \hline
+    [-0.6, 1.0, -0.2] & 6 & 6 & 7 & 7 \\ \hline
+    [-0.6, 1.0, 0.2] & 6 & 6 & 7 & 7 \\ \hline
+    [-0.6, 1.0, 0.6] & 4 & 5 & 5 & 5 \\ \hline
+    [-0.6, 1.0, 1.0] & 4 & 5 & 5 & 5 \\ \hline
+    [-0.2, -1.0, -1.0] & - & - & - & - \\ \hline
+    ... & ... & ... & ... & ...\\ \hline
+    [-0.2, 0.6, 0.2] & 7 & 7 & 7 & 8 \\ \hline
+    [-0.2, 0.6, 0.6] & 7 & 7 & 7 & 8 \\ \hline
+    [-0.2, 0.6, 1.0] & 7 & 7 & 7 & 8 \\ \hline
+    [-0.2, 1.0, -1.0] & 15 & 16 & 16 & 16 \\ \hline
+    [-0.2, 1.0, -0.6] & 7 & 8 & 8 & 8 \\ \hline
+    [-0.2, 1.0, -0.2] & 7 & 8 & 8 & 8 \\ \hline
+    [-0.2, 1.0, 0.2] & 7 & 8 & 8 & 8 \\ \hline
+    [-0.2, 1.0, 0.6] & 7 & 8 & 8 & 8 \\ \hline
+    [-0.2, 1.0, 1.0] & 15 & 16 & 16 & 16 \\ \hline
+    [0.2, -1.0, -1.0] & - & - & - & - \\ \hline
+    ... & ... & ... & ... & ...\\ \hline
+    [0.2, 0.6, 1.0] & 4 & 5 & 5 & 5 \\ \hline
+    [0.2, 1.0, -1.0] & 4 & 4 & 5 & 5 \\ \hline
+    [0.2, 1.0, -0.6] & 4 & 4 & 5 & 5 \\ \hline
+    [0.2, 1.0, -0.2] & 4 & 4 & 5 & 5 \\ \hline
+    [0.2, 1.0, 0.2] & 4 & 4 & 5 & 5 \\ \hline
+    ... & ... & ... & ... & ...\\ \hline
+    [0.6, 0.6, 1.0] & 5 & 5 & 5 & 5 \\ \hline
+    [0.6, 1.0, -1.0] & 4 & 5 & 5 & 5 \\ \hline
+    [0.6, 1.0, -0.6] & 3 & 3 & 4 & 4 \\ \hline
+    [0.6, 1.0, -0.2] & 5 & 5 & 5 & 6 \\ \hline
+    [0.6, 1.0, 0.2] & 5 & 5 & 5 & 6 \\ \hline
+    ... & ... & ... & ... & ...\\ \hline
+    [1.0, 1.0, -0.2] & 4 & 4 & 5 & 5 \\ \hline
+    [1.0, 1.0, 0.2] & 4 & 4 & 5 & 5 \\ \hline
+    [1.0, 1.0, 0.6] & 4 & 4 & 5 & 5 \\ \hline
+    [1.0, 1.0, 1.0] & 4 & 4 & 5 & 5 \\ \hline
+    \end{tabular}
+    \caption{Liczba iteracji dla wybranych wartości}
+    \end{table}
+
+Precyzja ma bardzo nieznaczny wpływ na liczbę iteracji. W zależności od wektora początkowego występowały pewne wachania, jednak, z pominięciem
+kilku indywidualnych skoków do 15-18, liczba iteracji znajduje się w zakresie 4-8.
+
 \subsection{Wnioski}
+Metoda Newtona jest skuteczną metodą rozwiązywania układów równań nieliniowych, jednak wymaga proprawnego wyboru wektora 
+początkowego, ponieważ często nie jest zbieżna do rozwiązania, oraz znajomościu pochodnych cząstkowych równań do wyznaczenia jakobianu.
+Za to pozwala w małej liczbie iteracji wyznaczyć rozwiązania układu równań z dosyć dużą precyzją.
 
 \end{document}

@@ -42,12 +42,12 @@ def newton_matrix(F: Callable[[list[float]], list[float]], J: Callable[[list[flo
         try:
             S = np.linalg.solve(J(X), F(X))
         except np.linalg.LinAlgError:
-            return [5,5,5], 0
+            return ['x', 'x', 'x'], 'x'
         X = X - S
         iters += 1
         if exit == 1:
             if np.linalg.norm(X-A) < epsilon: return X, iters
         elif exit == 2:
             if np.linalg.norm(F(X)) < epsilon: return X, iters
-        if iters > 3000:
-            return [0,0,0], 0
+        if iters > 500:
+            return ['x','x','x'], 'x'
