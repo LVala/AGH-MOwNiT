@@ -22,3 +22,25 @@ def gaussian_elimination(A: np.ndarray, B: np.ndarray):
         X[i] /= pivot
 
     return X
+
+def thomas_alg(A: np.ndarray, B: np.ndarray):
+    n = np.shape(A)[0]
+    if np.shape(B)[0] != n:
+        print("Invalid B vector size")
+        exit(1)
+
+    C = np.zeros(n)
+    C[0] = A[0,0]
+    X = np.zeros(n)
+    X[0] = B[0]
+
+    for i in range(1, n):
+        base = A[i,i-1]/A[i-1,i-1]
+        C[i] = A[i,i] - base*A[i-1,i]
+        X[i] = B[i] - base*B[i-1]
+    
+    X[n-1] = X[n-1]/C[n-1]
+    for i in range(n-2, -1, -1):
+        X[i] = (X[i]-A[i,i+1]*X[i+1])/A[i,i]
+
+    return X

@@ -1,2 +1,0 @@
-# algorytm Thomasa
-
