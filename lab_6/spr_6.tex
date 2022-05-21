@@ -488,7 +488,10 @@ układu). Opisane zostanie to, jak w metodzie dla ukłądów z macierzą trójdi
 \subsection{Opracowanie problemu}
 Zastosowane parametry są takie same jak w poprzednich problemach, $n\in\{3,...,100\}$, 3 rodzaje precyzji floata oraz 
 \textbf{x}\,$=[1,-1,1,-1,...]$. Zastosowaną rutyną do rozwiązywania układów z macierzą trójdiagonalną będzie algorytm 
-Thomasa. Algorytm ten przeważa nad eliminacją Gaussa w kilku aspektach: jego złożoność obliczeniowa to $O(n)$ (eliminacja
+Thomasa. Algorytm ten działa analogicznie do eliminacji Gaussa, jednak wykorzystuje fakt, że poza trzema środkowymi
+przekątnymi macierzy są w niej same zera, tak więc tam, gdzie metoda Gaussa itarowałaby przez wszystkie wiersze, odejmując
+wiersz z obecnym pivotem, algorytm Thomasa działa tylko na wierszu z pivotem oraz kolejnym (bo wszystkie inne zawierają same
+zera). Algorytm ten przeważa nad eliminacją Gaussa w kilku aspektach: jego złożoność obliczeniowa to $O(n)$ (eliminacja
 Gaussa - $O(n^3)$), złożoność pamięciowa (jeżeli założyć, że macierze wejściowe muszą pozostać niemodyfikowane) to 
 $O(n)$ (eliminacja Gaussa - $O(n^2)$, trzeba skopiować całą macierz).
 
