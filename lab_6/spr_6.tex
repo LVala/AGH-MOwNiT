@@ -39,7 +39,7 @@ Zakres użytego $n$ wynosi 3-100, natomiast, w celu uzyskania różnych precyzji
 (128 bitów, 64 bity oraz 32 bitów, typy zmiennoprzecinkowe). Przyjęty wektor \textbf{x} składa się naprzemiennie z 1 oraz -1, czyli
 \textbf{x}$=[1,-1,1,-1,...]$.
 
-Poniżej wyniki dla wartości 3-18 z użyciem float64 $n$:
+Poniżej wyniki dla wartości 3-18 $n$ z użyciem float64:
 \begin{table}[H]
 \centering
 \begin{tabular}{|l|p{11cm}|}
@@ -249,7 +249,7 @@ $n$ & Wynik (float64) \\ \hline
 \end{table}
 
 Wszystkie uzyskane wyniki w tym zakresie są na tyle dobre (tzn. mają na tyle dużo zer po przecinku),
-że numpy nie pokazuje ich rozwinięcia dziesiętnego, w odróżneiniu od problemu 1, gdzie widać było ewidentne
+że numpy nie pokazuje ich rozwinięcia dziesiętnego, w odróżnieniu od problemu 1, gdzie widać było ewidentne
 niedokładności.
 
 \newpage
@@ -408,8 +408,9 @@ $$
 
 Jedną z przyczyn, dla których układ równań z problemu pierwszego daje tak złe wyniki jest metoda wybierania elementu wiodącego
 (pivotu). W tej implementacji algorytmu eliminacja Gaussa jako pivot wybierane są zawsze kolejne elementy na przekątnej 
-macierzy. W przypadku macierzy z problemu drugiego jest to zawsze 2, w przypadku macierzy z problemu pierwszego elementy
-na przekątnej maleją, tak że najmniejsze wartości są rzędu $10^{-3}$. Może to stanowić problem, ponieważ poszczególne wiersze
+macierzy. W przypadku macierzy z problemu drugiego jest to zawsze 2 (po kolejnych redukcjach pivot osiąga wartości rzędu $10^{-2}$), 
+w przypadku macierzy z problemu pierwszego elementy na przekątnej redukują się na tyle mocno, że osiągają wartości rządu nawet $10^{-18}$. 
+Stanowi to problem, ponieważ poszczególne wiersze
 w metodzie eliminacji Gaussa są dzielone przez pivot, to znaczy mnożone przez jego odwrotność. Jeżeli pivot jest mały ($<1$), wówczas
 wiersze mnożone są przez dużą wartość, więc błędy zaokrągleń stają się duże w stosunku do współczynników oryginalnej macierzy.
 
@@ -419,7 +420,7 @@ Oprócz tego można również obliczyć wskaźnik uwarunkowania macierzy $\kappa
 
 $$\kappa=\|A^{-1}\|\|A\|$$
 
-Można zastosować dowolną normę zawartą, tutaj zostanie użyta norma ``nieskończoność'', tj. $\displaystyle\|A\|_{\infty}=\max_{i}\sum_{j}|a_{ij}|$.
+Można zastosować dowolną normę zwartą, tutaj zostanie użyta norma ``nieskończoność'', tj. $\displaystyle\|A\|_{\infty}=\max_{i}\sum_{j}|a_{ij}|$.
 
 Poniżej tabela z wybranymi wskaźnikami uwarunkowania macierzy dla różnych $n$:
 
@@ -462,7 +463,7 @@ $n$ & $\kappa_1$ (problem 1) & $\kappa_2$ (problem 2)\\ \hline
 96 & 1.08158e+21 & 1.11207e+04 \\ \hline
 99 & 2.33922e+21 & 1.18287e+04 \\ \hline
 \end{tabular}
-\caption{wskaźniki uwarunkowania macierzy}
+\caption{Wskaźniki uwarunkowania macierzy}
 \end{table}
 
 Wskaźniki uwarunkowania dla macierzy z problemu 1 są znacznie więsze niż dla problemu 2.
@@ -485,7 +486,289 @@ zostaną porównane (czas, dokładność obliczeń i zajętość pamięci) dla r
 układu). Opisane zostanie to, jak w metodzie dla ukłądów z macierzą trójdiagonalną przechowywano i wykorzystano macierz \textbf{A}.
 
 \subsection{Opracowanie problemu}
+Zastosowane parametry są takie same jak w poprzednich problemach, $n\in\{3,...,100\}$, 3 rodzaje precyzji floata oraz 
+\textbf{x}\,$=[1,-1,1,-1,...]$. Zastosowaną rutyną do rozwiązywania układów z macierzą trójdiagonalną będzie algorytm 
+Thomasa. Algorytm ten przeważa nad eliminacją Gaussa w kilku aspektach: jego złożoność obliczeniowa to $O(n)$ (eliminacja
+Gaussa - $O(n^3)$), złożoność pamięciowa (jeżeli założyć, że macierze wejściowe muszą pozostać niemodyfikowane) to 
+$O(n)$ (eliminacja Gaussa - $O(n^2)$, trzeba skopiować całą macierz).
+
+Poniżej kilka wyników dla początkowych $n$:
+
+\begin{table}[H]
+\hspace*{-1.2cm}
+\centering
+\begin{tabular}{|l|p{5cm}|p{8cm}|}
+\hline
+$n$ & Wynik (Gaussian elimination) & Wynik (Thomas) \\ \hline
+3 & [ 1. -1.  1.] & [ 1. -1.  1.] \\ \hline
+4 & [ 1. -1.  1. -1.] & [ 1. -1.  1. -1.] \\ \hline
+5 & [ 1. -1.  1. -1.  1.] & [ 1. -1.  1. -1.  1.] \\ \hline
+6 & [ 1. -1.  1. -1.  1. -1.] & [ 1. -1.  1. -1.  1. -1.] \\ \hline
+7 & [ 1. -1.  1. -1.  1. -1.  1.] & [ 1. -1.  1. -1.  1. -1.  1.] \\ \hline
+8 & [ 1. -1.  1. -1.  1. -1.  1. -1.] & [ 1. -1.  1. -1.  1. -1.  1. -1.] \\ \hline
+9 & [ 1. -1.  1. -1.  1. -1.  1. -1.  1.] & [ 1. -1.  1. -1.  1. -1.  1. -1.  1.] \\ \hline
+10 & [ 1. -1.  1. -1.  1. -1.  1. -1.  1. -1.] & [ 1. -1.  1. -1.  1. -1.  1. -1.  1. -1.] \\ \hline
+\end{tabular}
+\caption{Wyniki (float64)}
+\hspace*{-1.2cm}
+\end{table}
+
+Dla pierwszych $n$ wyniki algorytmu Thomasa tak samo dokładne, co jest zgodne z intuicją, bo algorytm Thomasa to uproszczona
+wersja eliminacji Gaussa. Poniżej prównanie dokładności dla wszystkich badanych $n$ (tylko z wykorzystaniem float64, wpływ
+precyzji typu został zbadany już wcześniej).
+
+\newpage
+\thispagestyle{empty}
+
+\begin{table}[H]
+\parbox{.45\linewidth}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+$n$ & Gauss & Thomas \\ \hline
+3 & 1.11022e-16 & 1.11022e-16 \\ \hline
+4 & 3.14018e-16 & 3.14018e-16 \\ \hline
+5 & 3.14018e-16 & 3.14018e-16 \\ \hline
+6 & 3.14018e-16 & 3.14018e-16 \\ \hline
+7 & 3.14018e-16 & 3.14018e-16 \\ \hline
+8 & 2.93737e-16 & 2.93737e-16 \\ \hline
+9 & 2.93737e-16 & 2.93737e-16 \\ \hline
+10 & 2.93737e-16 & 2.93737e-16 \\ \hline
+11 & 2.93737e-16 & 2.93737e-16 \\ \hline
+12 & 3.68219e-16 & 3.68219e-16 \\ \hline
+13 & 3.68219e-16 & 3.68219e-16 \\ \hline
+14 & 3.68219e-16 & 3.68219e-16 \\ \hline
+15 & 3.68219e-16 & 3.68219e-16 \\ \hline
+16 & 3.84593e-16 & 3.84593e-16 \\ \hline
+17 & 4.00297e-16 & 4.00297e-16 \\ \hline
+18 & 4.00297e-16 & 4.00297e-16 \\ \hline
+19 & 4.00297e-16 & 4.00297e-16 \\ \hline
+20 & 4.57757e-16 & 4.57757e-16 \\ \hline
+21 & 4.57757e-16 & 4.57757e-16 \\ \hline
+22 & 4.71028e-16 & 4.71028e-16 \\ \hline
+23 & 4.71028e-16 & 4.71028e-16 \\ \hline
+24 & 4.71028e-16 & 4.71028e-16 \\ \hline
+25 & 4.71028e-16 & 4.71028e-16 \\ \hline
+26 & 4.71028e-16 & 4.71028e-16 \\ \hline
+27 & 4.71028e-16 & 4.71028e-16 \\ \hline
+28 & 4.71028e-16 & 4.71028e-16 \\ \hline
+29 & 4.83935e-16 & 4.83935e-16 \\ \hline
+30 & 4.83935e-16 & 4.83935e-16 \\ \hline
+31 & 4.83935e-16 & 4.83935e-16 \\ \hline
+32 & 4.83935e-16 & 4.83935e-16 \\ \hline
+33 & 4.96507e-16 & 4.96507e-16 \\ \hline
+34 & 4.96507e-16 & 4.96507e-16 \\ \hline
+35 & 4.96507e-16 & 4.96507e-16 \\ \hline
+36 & 5.43896e-16 & 5.43896e-16 \\ \hline
+37 & 5.43896e-16 & 5.43896e-16 \\ \hline
+38 & 5.43896e-16 & 5.43896e-16 \\ \hline
+39 & 5.43896e-16 & 5.43896e-16 \\ \hline
+40 & 5.43896e-16 & 5.43896e-16 \\ \hline
+41 & 5.43896e-16 & 5.43896e-16 \\ \hline
+42 & 5.43896e-16 & 5.43896e-16 \\ \hline
+43 & 5.87475e-16 & 5.87475e-16 \\ \hline
+44 & 5.55112e-16 & 5.55112e-16 \\ \hline
+45 & 5.97873e-16 & 5.97873e-16 \\ \hline
+46 & 6.37775e-16 & 6.37775e-16 \\ \hline
+47 & 6.37775e-16 & 6.37775e-16 \\ \hline
+48 & 5.97873e-16 & 5.97873e-16 \\ \hline
+49 & 5.97873e-16 & 5.97873e-16 \\ \hline
+50 & 5.97873e-16 & 5.97873e-16 \\ \hline
+51 & 5.97873e-16 & 5.97873e-16 \\ \hline
+\end{tabular}
+}
+\parbox{.45\linewidth}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+$n$ & Gauss & Thomas \\ \hline
+52 & 6.37775e-16 & 6.37775e-16 \\ \hline
+53 & 6.37775e-16 & 6.37775e-16 \\ \hline
+54 & 6.75322e-16 & 6.75322e-16 \\ \hline
+55 & 7.10890e-16 & 7.10890e-16 \\ \hline
+56 & 7.10890e-16 & 7.10890e-16 \\ \hline
+57 & 7.10890e-16 & 7.10890e-16 \\ \hline
+58 & 7.10890e-16 & 7.10890e-16 \\ \hline
+59 & 7.10890e-16 & 7.10890e-16 \\ \hline
+60 & 7.10890e-16 & 7.10890e-16 \\ \hline
+61 & 7.10890e-16 & 7.10890e-16 \\ \hline
+62 & 7.44760e-16 & 7.44760e-16 \\ \hline
+63 & 7.52990e-16 & 7.52990e-16 \\ \hline
+64 & 7.52990e-16 & 7.52990e-16 \\ \hline
+65 & 7.52990e-16 & 7.52990e-16 \\ \hline
+66 & 7.52990e-16 & 7.52990e-16 \\ \hline
+67 & 7.52990e-16 & 7.52990e-16 \\ \hline
+68 & 8.15844e-16 & 8.15844e-16 \\ \hline
+69 & 8.15844e-16 & 8.15844e-16 \\ \hline
+70 & 8.45521e-16 & 8.45521e-16 \\ \hline
+71 & 8.45521e-16 & 8.45521e-16 \\ \hline
+72 & 8.45521e-16 & 8.45521e-16 \\ \hline
+73 & 8.45521e-16 & 8.45521e-16 \\ \hline
+74 & 8.45521e-16 & 8.45521e-16 \\ \hline
+75 & 8.45521e-16 & 8.45521e-16 \\ \hline
+76 & 8.74190e-16 & 8.74190e-16 \\ \hline
+77 & 8.74190e-16 & 8.74190e-16 \\ \hline
+78 & 8.74190e-16 & 8.74190e-16 \\ \hline
+79 & 8.74190e-16 & 8.74190e-16 \\ \hline
+80 & 8.74190e-16 & 8.74190e-16 \\ \hline
+81 & 9.01949e-16 & 9.01949e-16 \\ \hline
+82 & 9.01949e-16 & 9.01949e-16 \\ \hline
+83 & 9.01949e-16 & 9.01949e-16 \\ \hline
+84 & 9.01949e-16 & 9.01949e-16 \\ \hline
+85 & 9.01949e-16 & 9.01949e-16 \\ \hline
+86 & 9.01949e-16 & 9.01949e-16 \\ \hline
+87 & 9.01949e-16 & 9.01949e-16 \\ \hline
+88 & 9.01949e-16 & 9.01949e-16 \\ \hline
+89 & 9.08757e-16 & 9.08757e-16 \\ \hline
+90 & 9.08757e-16 & 9.08757e-16 \\ \hline
+91 & 9.08757e-16 & 9.08757e-16 \\ \hline
+92 & 9.08757e-16 & 9.08757e-16 \\ \hline
+93 & 9.08757e-16 & 9.08757e-16 \\ \hline
+94 & 9.35491e-16 & 9.35491e-16 \\ \hline
+95 & 9.35491e-16 & 9.35491e-16 \\ \hline
+96 & 9.35491e-16 & 9.35491e-16 \\ \hline
+97 & 9.35491e-16 & 9.35491e-16 \\ \hline
+98 & 9.35491e-16 & 9.35491e-16 \\ \hline
+99 & 9.35491e-16 & 9.35491e-16 \\ \hline
+100 & 9.35491e-16 & 9.35491e-16 \\ \hline
+\end{tabular}
+}
+\caption{Błędy dla metod Gaussa i Thomasa}
+\end{table}
+
+Błędy są dokładnie takie same niezależnie od metody, jak zostało wspomniane wcześniej, jest przewidywalyn wynikiem, bo metody Gaussa
+i Thomasa są u podstaw takie same, tylko metoda Thomasa ogranicza się do działania na elementach trójdiagonali.
+
+Poniżej porwónanie czasów działania:
+
+\newpage
+\thispagestyle{empty}
+
+\begin{table}[H]
+\parbox{.45\linewidth}{
+\hspace*{-1cm}
+\begin{tabular}{|l|l|l|l|}
+\hline
+$n$ & Gauss & Thomas \\ \hline
+3 & 0.0000619888 & 0.0000097752 \\ \hline
+4 & 0.0000605583 & 0.0000104904 \\ \hline
+5 & 0.0000586510 & 0.0000112057 \\ \hline
+6 & 0.0001332760 & 0.0000202656 \\ \hline
+7 & 0.0001723766 & 0.0000269413 \\ \hline
+8 & 0.0001933575 & 0.0000269413 \\ \hline
+9 & 0.0001623631 & 0.0000243187 \\ \hline
+10 & 0.0002050400 & 0.0000312328 \\ \hline
+11 & 0.0002467632 & 0.0000228882 \\ \hline
+12 & 0.0002651215 & 0.0000255108 \\ \hline
+13 & 0.0002963543 & 0.0000422001 \\ \hline
+14 & 0.0003426075 & 0.0000267029 \\ \hline
+15 & 0.0005545616 & 0.0000529289 \\ \hline
+16 & 0.0005488396 & 0.0000472069 \\ \hline
+17 & 0.0006279945 & 0.0000414848 \\ \hline
+18 & 0.0007517338 & 0.0000555515 \\ \hline
+19 & 0.0008482933 & 0.0000672340 \\ \hline
+20 & 0.0009593964 & 0.0000400543 \\ \hline
+21 & 0.0007262230 & 0.0000364780 \\ \hline
+22 & 0.0006790161 & 0.0000369549 \\ \hline
+23 & 0.0007746220 & 0.0000381470 \\ \hline
+24 & 0.0010666847 & 0.0000436306 \\ \hline
+25 & 0.0009360313 & 0.0000662804 \\ \hline
+26 & 0.0011546612 & 0.0000457764 \\ \hline
+27 & 0.0009803772 & 0.0000619888 \\ \hline
+28 & 0.0010209084 & 0.0000708103 \\ \hline
+29 & 0.0010361671 & 0.0000452995 \\ \hline
+30 & 0.0010993481 & 0.0000452995 \\ \hline
+31 & 0.0012125969 & 0.0000746250 \\ \hline
+32 & 0.0022766590 & 0.0000927448 \\ \hline
+33 & 0.0023801327 & 0.0000879765 \\ \hline
+34 & 0.0023727417 & 0.0000596046 \\ \hline
+35 & 0.0015447140 & 0.0000562668 \\ \hline
+36 & 0.0016992092 & 0.0000882149 \\ \hline
+37 & 0.0015561581 & 0.0000529289 \\ \hline
+38 & 0.0019032955 & 0.0000991821 \\ \hline
+39 & 0.0028629303 & 0.0000839233 \\ \hline
+40 & 0.0019550323 & 0.0000615120 \\ \hline
+41 & 0.0019819736 & 0.0000629425 \\ \hline
+42 & 0.0020363331 & 0.0000622272 \\ \hline
+43 & 0.0040171146 & 0.0001215935 \\ \hline
+44 & 0.0043051243 & 0.0000996590 \\ \hline
+45 & 0.0022635460 & 0.0000650883 \\ \hline
+46 & 0.0023288727 & 0.0000636578 \\ \hline
+47 & 0.0029795170 & 0.0000715256 \\ \hline
+48 & 0.0026295185 & 0.0000736713 \\ \hline
+49 & 0.0038347244 & 0.0001218319 \\ \hline
+50 & 0.0029559135 & 0.0000746250 \\ \hline
+51 & 0.0035314560 & 0.0000882149 \\ \hline
+\end{tabular}
+}
+\parbox{.45\linewidth}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+$n$ & Gauss & Thomas \\ \hline
+52 & 0.0032415390 & 0.0000820160 \\ \hline
+53 & 0.0053093433 & 0.0000941753 \\ \hline
+54 & 0.0035138130 & 0.0000839233 \\ \hline
+55 & 0.0038602352 & 0.0000853539 \\ \hline
+56 & 0.0055491924 & 0.0001106262 \\ \hline
+57 & 0.0039956570 & 0.0000896454 \\ \hline
+58 & 0.0039348602 & 0.0000896454 \\ \hline
+59 & 0.0063655376 & 0.0001385212 \\ \hline
+60 & 0.0067534447 & 0.0001616478 \\ \hline
+61 & 0.0047607422 & 0.0000948906 \\ \hline
+62 & 0.0045101643 & 0.0000922680 \\ \hline
+63 & 0.0043694973 & 0.0001051426 \\ \hline
+64 & 0.0059125423 & 0.0001597404 \\ \hline
+65 & 0.0049693584 & 0.0000951290 \\ \hline
+66 & 0.0047736168 & 0.0000939369 \\ \hline
+67 & 0.0064024925 & 0.0000991821 \\ \hline
+68 & 0.0050079823 & 0.0000927448 \\ \hline
+69 & 0.0053901672 & 0.0001285076 \\ \hline
+70 & 0.0065517426 & 0.0001037121 \\ \hline
+71 & 0.0056121349 & 0.0001022816 \\ \hline
+72 & 0.0068676472 & 0.0001111031 \\ \hline
+73 & 0.0059673786 & 0.0001046658 \\ \hline
+74 & 0.0073094368 & 0.0001091957 \\ \hline
+75 & 0.0062007904 & 0.0001070499 \\ \hline
+76 & 0.0088074207 & 0.0001599789 \\ \hline
+77 & 0.0066230297 & 0.0001106262 \\ \hline
+78 & 0.0078511238 & 0.0001115799 \\ \hline
+79 & 0.0068879128 & 0.0001113415 \\ \hline
+80 & 0.0087833405 & 0.0001146793 \\ \hline
+81 & 0.0073301792 & 0.0001149178 \\ \hline
+82 & 0.0085895061 & 0.0001168251 \\ \hline
+83 & 0.0080413818 & 0.0001251698 \\ \hline
+84 & 0.0079605579 & 0.0001177788 \\ \hline
+85 & 0.0092260838 & 0.0001583099 \\ \hline
+86 & 0.0082290173 & 0.0001211166 \\ \hline
+87 & 0.0094833374 & 0.0001237392 \\ \hline
+88 & 0.0088658333 & 0.0001304150 \\ \hline
+89 & 0.0087473392 & 0.0001268387 \\ \hline
+90 & 0.0106673241 & 0.0001313686 \\ \hline
+91 & 0.0092604160 & 0.0001437664 \\ \hline
+92 & 0.0093936920 & 0.0001323223 \\ \hline
+93 & 0.0108370781 & 0.0001347065 \\ \hline
+94 & 0.0098938942 & 0.0001597404 \\ \hline
+95 & 0.0105099678 & 0.0001373291 \\ \hline
+96 & 0.0181446075 & 0.0002424717 \\ \hline
+97 & 0.0181982517 & 0.0002415180 \\ \hline
+98 & 0.0185339451 & 0.0002431870 \\ \hline
+99 & 0.0193188190 & 0.0002481937 \\ \hline
+100 & 0.0204241276 & 0.0002508163 \\ \hline
+\end{tabular}
+}
+\caption{Czas działania metod Gaussa i Thomasa}
+\end{table}
+
+W metodzie Thomasa czasy działania są znacznie krótsze, co również nie zaskakuje, wykonuje ona bowiem znacznie mniej operacji, ograniczając
+się tylko do trójdiagonali macierzy.
+
+Algortytm Thomasa wygrywa również w kwestii zajętości pamięci, ponieważ, przy założeniu, że oryginalne macierze nie mogą być
+modyfikowane, wykorzystana tu implementacja używa dwóch dodatkowych tablic o długości $n$, natomiast eliminacja Gaussa potrzebuje
+dodatkowej macierzy o rozmiarze $n$\,x\,$(n+1)$.
 
 \subsection{Wnioski}
+Metoda Gaussa jest skutecznym i prostym sposobem na rozwiązywanie układu równań liniowych, jednak czasami cierpi z powodu 
+błędów w dokładności spowodowanych słabym uwarunkowaniem układów wejściowych lub sposobu wybierania elementu wiodącego (czemu 
+można zapobiec stosując inne elementy wiodące). Jeżeli macierz jest trójdiagonalna, warto zamiast 
+eliminacji Gaussa wykorzystać algorytm Thomasa, który jest uproszczoną wersją eliminacji, daje wyniki o takiej samej dokłądności,
+ale działa znacznie szybciej.
 
 \end{document}

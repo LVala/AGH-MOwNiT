@@ -35,12 +35,12 @@ def thomas_alg(A: np.ndarray, B: np.ndarray):
     X[0] = B[0]
 
     for i in range(1, n):
-        base = A[i,i-1]/A[i-1,i-1]
+        base = A[i,i-1]/C[i-1]
         C[i] = A[i,i] - base*A[i-1,i]
-        X[i] = B[i] - base*B[i-1]
+        X[i] = B[i] - base*X[i-1]
     
     X[n-1] = X[n-1]/C[n-1]
     for i in range(n-2, -1, -1):
-        X[i] = (X[i]-A[i,i+1]*X[i+1])/A[i,i]
+        X[i] = (X[i]-A[i,i+1]*X[i+1])/C[i]
 
     return X
