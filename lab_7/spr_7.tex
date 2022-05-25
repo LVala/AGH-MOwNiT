@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\usepackage{polski}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{multirow}
+
+\title{Rozwiązywanie układów równań liniowych metodami iteracyjnymi}
+\author{\textbf{Łukasz Wala}\\
+    \textit{AGH, Wydział Informatyki, Elektroniki i Telekomunikacji} \\
+    \textit{Metody Obliczeniowe w Nauce i Technice 2021/2022}}
+\date{Kraków, \today}
+
+\begin{document}
+\maketitle
+
+\section{Problem 1}
+\subsection{Opis problemu}
+Dany jest układ równań liniowych \textbf{Ax}=\textbf{b}.
+Elementy macierzy \textbf{A} o wymiarze $n$\,x\,$n$ są określone wzorem:
+$$
+\begin{cases}
+    a_{i,i}=k\\
+    a_{i,j}=\frac{1}{|i-j|+m} \ dla \ i \ne j
+\end{cases}i,j=1,...,n
+$$
+
+Gdzie $k=8$, $m=3$.
+
+Układ zostanie rozwiązany metodą Jakobiego. Obliczenia zostaną wykonane dla różnych $n$,
+dla różnych wektorów początkowych oraz różnych wartości $\rho$ w kryteriach stopu. Wyznaczone zostaną: liczba iteracji,
+różnica w czasie obliczeń dla obu kryteriów stopu. Sprawdzona zostanie dokładność obliczeń.
+
+Użyte kryteria stopu (norma euklidesowa):
+\begin{enumerate}
+    \item 
+    $\left\|x^{(i+1)}-x^{(i)}\right\| < \rho$
+    \item
+    $\left\|Ax^{(i)}-b\right\| < \rho$
+\end{enumerate}
+
+\subsection{Opracowanie problemu}
+Program użyty do rozwiązania układu został napisany w języku Python z użyciem pakietu numpy.
+
+\subsection{Wnioski}
+
+
+
+
+\section{Problem 2}
+\subsection{Opis problemu}
+Przy użyciu dowolnej metody zostanie znaleziony promień spektralny macierzy iteracji z poprzedniego problemu
+(dla różnych rozmiarów układu --- takich, dla których znajdowane były rozwiązania układu).
+Sprawdzone zostanie, czy spełnione są założenia o zbieżności metody dla zadanego układu. Opisana zostanie metoda znajdowania
+promienia spektralnego.
+
+\subsection{Opracowanie problemu}
+
+\subsection{Wnioski}
+
+
+\end{document}
