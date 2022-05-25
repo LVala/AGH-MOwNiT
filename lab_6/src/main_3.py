@@ -5,7 +5,7 @@ import time
 k = 6
 m = 5
 
-for n in range(3,101):
+for n in range(120,501, 20):
     print(n, end=" & ")
     # for fltype in (np.float32, np.float64, np.float128):
     A = np.zeros((n,n)).astype(np.float64)
@@ -15,7 +15,7 @@ for n in range(3,101):
             elif j == i+1: A[i-1,j-1] = 1/(i+m)
             elif i > j and j == i-1: A[i-1,j-1] = k/(i+m+1)
     
-    X_known = np.array([1 if i%2==0 else -1 for i in range(n)])  # alternating 1, -1, 1, -1, ...
+    X_known = np.array([1 if i%2==0 else -1 for i in range(n)]).astype(np.float64)  # alternating 1, -1, 1, -1, ...
     B = A @ X_known
     gauss_start = time.time()
     X_g = gaussian_elimination(A, B)
@@ -25,8 +25,5 @@ for n in range(3,101):
     thomas_end = time.time()
     norm_g = np.linalg.norm(X_known-X_g)
     norm_t = np.linalg.norm(X_known-X_t)
-    print(f"{gauss_end-gauss_start:.10f} & {thomas_end-thomas_start:.10f}", end=" \\\\ \\hline\n")
-    # if fltype != np.float128:
-    #     print(f"{norm:.5e}", end=" & ")
-    # else:
-    #     print(f"{norm:.5e}", end=" \\\\ \\hline\n")
+    # print(f"{gauss_end-gauss_start:.10f} & {thomas_end-thomas_start:.10f}", end=" \\\\ \\hline\n")
+    print(f"{norm_g:.5e} & {norm_t:.5e} \\\\ \\hline")

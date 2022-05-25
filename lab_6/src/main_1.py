@@ -10,6 +10,6 @@ for n in range(3, 101):
         X = gaussian_elimination(A, B)
         norm = np.linalg.norm(X_known-X)
         if fltype != np.float128:
-            print(f"{norm:.5e}, {B.dtype}", end=" & ")
+            print(f"{norm:.5e}", end=" & ")
         else:
-            print(f"{norm:.5e}, {B.dtype}", end=" \\\\ \\hline\n")
+            print(f"{norm:.5e}", end=" \\\\ \\hline\n")
