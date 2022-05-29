@@ -29,7 +29,8 @@ $$
 
 Gdzie $k=8$, $m=3$.
 
-Układ zostanie rozwiązany metodą Jakobiego. Obliczenia zostaną wykonane dla różnych $n$,
+Za wektor \textbf{x} przyjęta zostanie dowolna $n$-elementowa permutacja ze zbioru \{1,-1\} i obliczony zostanie
+wektor \textbf{b}. Układ zostanie rozwiązany metodą Jakobiego. Obliczenia zostaną wykonane dla różnych $n$,
 dla różnych wektorów początkowych oraz różnych wartości $\rho$ w kryteriach stopu. Wyznaczone zostaną: liczba iteracji,
 różnica w czasie obliczeń dla obu kryteriów stopu. Sprawdzona zostanie dokładność obliczeń.
 
@@ -42,10 +43,314 @@ Użyte kryteria stopu (norma euklidesowa):
 \end{enumerate}
 
 \subsection{Opracowanie problemu}
-Program użyty do rozwiązania układu został napisany w języku Python z użyciem pakietu numpy.
+Program użyty do rozwiązania układu został napisany w języku Python z użyciem pakietu numpy. Poniżej tabele zależności
+liczby $n$ oraz precyzji (błąd wyniku, liczba iteracji oraz czas obliczeń) dla wektora początkowego zawierającego same
+zera:
 
-\subsection{Wnioski}
+\newpage
+\thispagestyle{empty}
 
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.01 & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+3 & 1.21461e-04 & 6.45239e-06 & 3.63832e-07 & 3.63832e-07 & 2.10000e-08 \\ \hline
+5 & 4.45373e-04 & 4.56365e-05 & 4.74766e-06 & 4.94736e-07 & 5.15641e-08 \\ \hline
+7 & 9.07612e-04 & 1.82082e-05 & 2.58771e-06 & 3.67770e-07 & 5.22680e-08 \\ \hline
+9 & 2.49465e-04 & 4.35374e-05 & 7.59930e-06 & 1.32644e-06 & 4.04122e-08 \\ \hline
+11 & 4.02111e-04 & 8.15997e-05 & 1.65600e-05 & 6.82029e-07 & 1.38412e-07 \\ \hline
+13 & 5.79085e-04 & 1.32160e-04 & 6.88406e-06 & 1.57115e-06 & 8.18398e-08 \\ \hline
+15 & 7.74528e-04 & 1.94437e-04 & 1.22542e-05 & 7.72308e-07 & 1.93885e-07 \\ \hline
+17 & 9.83759e-04 & 7.26969e-05 & 1.97621e-05 & 1.46039e-06 & 1.07920e-07 \\ \hline
+19 & 1.20309e-03 & 1.01848e-04 & 8.62215e-06 & 7.29923e-07 & 2.12377e-07 \\ \hline
+21 & 1.42965e-03 & 1.36194e-04 & 1.29746e-05 & 1.23603e-06 & 1.17750e-07 \\ \hline
+23 & 1.66117e-03 & 1.75591e-04 & 1.85607e-05 & 1.96194e-06 & 2.07386e-07 \\ \hline
+25 & 1.89590e-03 & 2.19851e-04 & 8.68173e-06 & 1.00676e-06 & 1.16746e-07 \\ \hline
+27 & 2.13243e-03 & 9.54138e-05 & 1.20256e-05 & 1.51565e-06 & 1.91026e-07 \\ \hline
+29 & 2.36968e-03 & 1.18746e-04 & 1.61402e-05 & 2.19381e-06 & 1.09935e-07 \\ \hline
+31 & 2.60679e-03 & 1.44859e-04 & 2.10947e-05 & 1.17224e-06 & 1.70705e-07 \\ \hline
+33 & 1.11982e-03 & 1.73729e-04 & 2.69524e-05 & 1.64697e-06 & 2.55512e-07 \\ \hline
+35 & 1.24831e-03 & 2.05322e-04 & 1.36963e-05 & 2.25276e-06 & 1.50274e-07 \\ \hline
+37 & 1.37978e-03 & 2.39591e-04 & 1.73365e-05 & 1.25445e-06 & 2.17828e-07 \\ \hline
+39 & 1.51382e-03 & 2.76484e-04 & 2.15806e-05 & 1.68445e-06 & 1.31478e-07 \\ \hline
+41 & 1.65008e-03 & 1.38248e-04 & 2.64706e-05 & 2.21779e-06 & 1.85813e-07 \\ \hline
+43 & 1.78822e-03 & 1.60116e-04 & 1.43367e-05 & 2.86941e-06 & 2.56925e-07 \\ \hline
+45 & 1.92798e-03 & 1.83768e-04 & 1.75161e-05 & 1.66958e-06 & 1.59139e-07 \\ \hline
+47 & 2.06909e-03 & 2.09203e-04 & 2.11524e-05 & 2.13870e-06 & 2.16243e-07 \\ \hline
+49 & 2.21134e-03 & 2.36418e-04 & 2.52761e-05 & 2.70233e-06 & 2.88913e-07 \\ \hline
+51 & 2.35451e-03 & 2.65404e-04 & 2.99170e-05 & 1.62904e-06 & 1.83629e-07 \\ \hline
+53 & 2.49843e-03 & 2.96150e-04 & 1.72441e-05 & 2.04403e-06 & 2.42289e-07 \\ \hline
+55 & 2.64295e-03 & 3.28641e-04 & 2.03972e-05 & 2.53634e-06 & 3.15388e-07 \\ \hline
+57 & 2.78791e-03 & 1.83892e-04 & 2.39349e-05 & 3.11529e-06 & 2.05489e-07 \\ \hline
+59 & 2.93319e-03 & 2.05063e-04 & 2.78805e-05 & 1.94918e-06 & 2.65013e-07 \\ \hline
+61 & 3.07867e-03 & 2.27554e-04 & 3.22574e-05 & 2.38428e-06 & 3.37989e-07 \\ \hline
+63 & 3.22426e-03 & 2.51372e-04 & 1.95981e-05 & 2.89158e-06 & 2.25441e-07 \\ \hline
+65 & 3.36985e-03 & 2.76524e-04 & 2.26915e-05 & 3.47906e-06 & 2.85492e-07 \\ \hline
+67 & 1.90474e-03 & 3.03011e-04 & 2.61190e-05 & 2.25141e-06 & 1.94068e-07 \\ \hline
+69 & 2.00711e-03 & 3.30835e-04 & 2.98998e-05 & 2.70225e-06 & 2.44220e-07 \\ \hline
+71 & 2.11061e-03 & 1.99648e-04 & 3.40532e-05 & 3.22119e-06 & 3.04702e-07 \\ \hline
+73 & 2.21516e-03 & 2.18956e-04 & 2.16426e-05 & 2.13925e-06 & 2.11454e-07 \\ \hline
+75 & 2.32069e-03 & 2.39331e-04 & 2.46822e-05 & 2.54547e-06 & 2.62514e-07 \\ \hline
+77 & 2.42713e-03 & 2.60786e-04 & 2.80205e-05 & 3.01071e-06 & 3.23490e-07 \\ \hline
+79 & 2.53443e-03 & 2.83329e-04 & 3.16742e-05 & 3.54095e-06 & 2.28896e-07 \\ \hline
+81 & 2.64250e-03 & 3.06970e-04 & 3.56599e-05 & 2.41844e-06 & 2.80944e-07 \\ \hline
+83 & 2.75131e-03 & 3.31718e-04 & 2.35673e-05 & 2.84146e-06 & 3.42590e-07 \\ \hline
+85 & 2.86080e-03 & 3.57579e-04 & 2.65755e-05 & 3.32178e-06 & 2.46877e-07 \\ \hline
+87 & 2.97092e-03 & 2.30665e-04 & 2.98580e-05 & 2.31823e-06 & 3.00079e-07 \\ \hline
+89 & 3.08161e-03 & 2.49634e-04 & 3.34294e-05 & 2.70807e-06 & 3.62649e-07 \\ \hline
+91 & 3.19284e-03 & 2.69534e-04 & 3.73050e-05 & 3.14926e-06 & 2.65858e-07 \\ \hline
+93 & 3.30457e-03 & 2.90377e-04 & 2.55162e-05 & 3.64670e-06 & 3.20445e-07 \\ \hline
+95 & 3.41675e-03 & 3.12175e-04 & 2.85228e-05 & 2.60606e-06 & 2.38110e-07 \\ \hline
+97 & 3.52934e-03 & 3.34940e-04 & 3.17869e-05 & 3.01669e-06 & 2.86294e-07 \\ \hline
+99 & 3.64231e-03 & 3.58681e-04 & 3.53223e-05 & 3.47848e-06 & 3.42554e-07 \\ \hline
+\end{tabular}
+\caption{Błędy obliczeń (wiersze - $n$, kolumny - precyzja, kryterium stopu 1)}
+\end{table}
+
+Jak nietrudno było się domyślić, błąd rozwiązania maleje wraz ze malejącą wartością $\rho$ niezależnie od rozmiaru
+macierzy. Rozmiar macierzy na pierwszy rzut oka nie ma dużego znaczenia, jednak może być to spowodowane faktem, że program
+działa aż do uzyskania pewnej dokładności określonej przez kryteria stopu, więc uzyskanie tej samej dokładności dla 
+dużych macierzy wymaga więcej iteracji lub czasu, co zostanie zbadane później.
+
+Poniżej tabela błędów dla kryterium 2, można w niej zauważyć, że generalnie wyniki są odrobinę bardziej dokładne,
+co oznacza że kryterium 2 jest bardziej rygorystyczne, lecz zapewne wymaga więszej liczby iteracji/czasu.
+
+\newpage
+\thispagestyle{empty}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.01 & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+9 & 2.49465e-04 & 4.35374e-05 & 7.59930e-06 & 2.31526e-07 & 4.04122e-08 \\ \hline
+11 & 4.02111e-04 & 8.15997e-05 & 3.36071e-06 & 6.82029e-07 & 2.80897e-08 \\ \hline
+13 & 5.79085e-04 & 3.01628e-05 & 6.88406e-06 & 3.58584e-07 & 8.18398e-08 \\ \hline
+15 & 7.74528e-04 & 4.88126e-05 & 3.07636e-06 & 7.72308e-07 & 4.86740e-08 \\ \hline
+17 & 2.67423e-04 & 7.26969e-05 & 5.37218e-06 & 3.96996e-07 & 2.93373e-08 \\ \hline
+19 & 3.50045e-04 & 2.96337e-05 & 8.62215e-06 & 7.29923e-07 & 6.17928e-08 \\ \hline
+21 & 4.41258e-04 & 4.20365e-05 & 4.00461e-06 & 3.81500e-07 & 3.63436e-08 \\ \hline
+23 & 5.40079e-04 & 5.70885e-05 & 6.03449e-06 & 6.37871e-07 & 6.74256e-08 \\ \hline
+25 & 6.45610e-04 & 7.48666e-05 & 8.68173e-06 & 3.42834e-07 & 3.97559e-08 \\ \hline
+27 & 7.57038e-04 & 3.38734e-05 & 4.26925e-06 & 5.38078e-07 & 6.78171e-08 \\ \hline
+29 & 8.73636e-04 & 4.37789e-05 & 5.95052e-06 & 8.08806e-07 & 4.05302e-08 \\ \hline
+31 & 3.79604e-04 & 5.52789e-05 & 8.04986e-06 & 4.47334e-07 & 6.51419e-08 \\ \hline
+33 & 4.41073e-04 & 6.84282e-05 & 4.18141e-06 & 6.48707e-07 & 3.96402e-08 \\ \hline
+35 & 5.06266e-04 & 8.32705e-05 & 5.55468e-06 & 3.70533e-07 & 6.09451e-08 \\ \hline
+37 & 5.74964e-04 & 4.16037e-05 & 7.22425e-06 & 5.22738e-07 & 3.78247e-08 \\ \hline
+39 & 6.46953e-04 & 5.04971e-05 & 3.94149e-06 & 7.19874e-07 & 5.61889e-08 \\ \hline
+41 & 7.22030e-04 & 6.04939e-05 & 5.06836e-06 & 4.24643e-07 & 8.13071e-08 \\ \hline
+43 & 8.00004e-04 & 7.16319e-05 & 6.41388e-06 & 5.74295e-07 & 5.14221e-08 \\ \hline
+45 & 4.02297e-04 & 8.39446e-05 & 8.00132e-06 & 7.62659e-07 & 7.26941e-08 \\ \hline
+47 & 4.49061e-04 & 4.54042e-05 & 4.59079e-06 & 4.64171e-07 & 4.69320e-08 \\ \hline
+49 & 4.98125e-04 & 5.32558e-05 & 5.69371e-06 & 6.08729e-07 & 6.50808e-08 \\ \hline
+51 & 5.49420e-04 & 6.19319e-05 & 6.98111e-06 & 7.86927e-07 & 4.28497e-08 \\ \hline
+53 & 6.02877e-04 & 7.14621e-05 & 4.16107e-06 & 4.93232e-07 & 5.84653e-08 \\ \hline
+55 & 6.58429e-04 & 8.18741e-05 & 5.08155e-06 & 6.31878e-07 & 7.85724e-08 \\ \hline
+57 & 7.16009e-04 & 4.72290e-05 & 6.14718e-06 & 8.00098e-07 & 5.27756e-08 \\ \hline
+59 & 7.75551e-04 & 5.42204e-05 & 7.37185e-06 & 5.15382e-07 & 7.00718e-08 \\ \hline
+61 & 4.36417e-04 & 6.18653e-05 & 4.57272e-06 & 6.48217e-07 & 4.79124e-08 \\ \hline
+63 & 4.75711e-04 & 7.01884e-05 & 5.47220e-06 & 8.07391e-07 & 6.29478e-08 \\ \hline
+65 & 5.16654e-04 & 7.92133e-05 & 6.50024e-06 & 5.33410e-07 & 4.37716e-08 \\ \hline
+67 & 5.59221e-04 & 4.82039e-05 & 7.66842e-06 & 6.61005e-07 & 5.69775e-08 \\ \hline
+69 & 6.03390e-04 & 5.45324e-05 & 4.92846e-06 & 4.45418e-07 & 7.34192e-08 \\ \hline
+71 & 6.49136e-04 & 6.14036e-05 & 5.80834e-06 & 5.49428e-07 & 5.19720e-08 \\ \hline
+73 & 6.96434e-04 & 6.88387e-05 & 6.80434e-06 & 6.72572e-07 & 6.64801e-08 \\ \hline
+75 & 7.45259e-04 & 7.68584e-05 & 7.92640e-06 & 4.63240e-07 & 4.77739e-08 \\ \hline
+77 & 4.55497e-04 & 4.89416e-05 & 5.25860e-06 & 5.65019e-07 & 6.07093e-08 \\ \hline
+79 & 4.89990e-04 & 5.47775e-05 & 6.12374e-06 & 6.84591e-07 & 7.65325e-08 \\ \hline
+81 & 5.25806e-04 & 6.10815e-05 & 7.09568e-06 & 4.81226e-07 & 5.59028e-08 \\ \hline
+83 & 5.62938e-04 & 6.78724e-05 & 4.82208e-06 & 5.81389e-07 & 7.00970e-08 \\ \hline
+85 & 6.01380e-04 & 7.51688e-05 & 5.58661e-06 & 6.98291e-07 & 5.18976e-08 \\ \hline
+87 & 6.41126e-04 & 4.97784e-05 & 6.44345e-06 & 5.00283e-07 & 6.47580e-08 \\ \hline
+89 & 6.82168e-04 & 5.52615e-05 & 7.40028e-06 & 5.99487e-07 & 4.85636e-08 \\ \hline
+\end{tabular}
+\caption{Błędy obliczeń (wiersze - $n$, kolumny - precyzja, kryterium stopu 2)}
+\end{table}
+
+Teraz zbadane zostaną liczby iteracji/czas działania dla poszczególnych precyzji oraz wartości $n$.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.01 & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+3 & 3 & 4 & 5 & 5 & 6 \\ \hline
+6 & 3 & 4 & 4 & 5 & 6 \\ \hline
+9 & 4 & 5 & 6 & 7 & 9 \\ \hline
+12 & 3 & 4 & 5 & 5 & 6 \\ \hline
+15 & 4 & 5 & 7 & 9 & 10 \\ \hline
+18 & 3 & 4 & 5 & 6 & 6 \\ \hline
+21 & 4 & 6 & 8 & 10 & 12 \\ \hline
+24 & 3 & 4 & 5 & 6 & 7 \\ \hline
+27 & 4 & 7 & 9 & 11 & 13 \\ \hline
+30 & 3 & 4 & 5 & 7 & 8 \\ \hline
+33 & 5 & 7 & 9 & 12 & 14 \\ \hline
+36 & 3 & 4 & 6 & 7 & 8 \\ \hline
+39 & 5 & 7 & 10 & 13 & 16 \\ \hline
+42 & 3 & 5 & 6 & 7 & 9 \\ \hline
+45 & 5 & 8 & 11 & 14 & 17 \\ \hline
+48 & 4 & 5 & 6 & 8 & 9 \\ \hline
+51 & 5 & 8 & 11 & 15 & 18 \\ \hline
+54 & 4 & 5 & 7 & 8 & 10 \\ \hline
+57 & 5 & 9 & 12 & 15 & 19 \\ \hline
+60 & 4 & 5 & 7 & 9 & 10 \\ \hline
+63 & 5 & 9 & 13 & 16 & 20 \\ \hline
+66 & 4 & 5 & 7 & 9 & 11 \\ \hline
+69 & 6 & 9 & 13 & 17 & 21 \\ \hline
+72 & 4 & 5 & 7 & 9 & 11 \\ \hline
+75 & 6 & 10 & 14 & 18 & 22 \\ \hline
+78 & 4 & 6 & 7 & 9 & 11 \\ \hline
+81 & 6 & 10 & 14 & 19 & 23 \\ \hline
+84 & 4 & 6 & 8 & 10 & 12 \\ \hline
+87 & 6 & 11 & 15 & 20 & 24 \\ \hline
+90 & 4 & 6 & 8 & 10 & 12 \\ \hline
+93 & 6 & 11 & 16 & 20 & 25 \\ \hline
+96 & 4 & 6 & 8 & 10 & 12 \\ \hline
+99 & 6 & 11 & 16 & 21 & 26 \\ \hline
+\end{tabular}
+\caption{Iteracje (wiersze - $n$, kolumny - precyzja, kryterium stopu 1)}
+\end{table}
+
+Lepsza precyzja wymaga wicej iteracji, co jest zgodne z intuicją. Oprócz tego potwierdzają się wcześniejsze przypuszczenia
+o tym, że przyczyną dobrej precyzji dla większych macierzy jest większa liczba iteracji. Można też zauważyć, że przyrost
+liczby iteracji w zależności od $n$ jest większy dla lepszych precyzji.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.01 & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+3 & 3 & 4 & 4 & 5 & 6 \\ \hline
+6 & 3 & 3 & 4 & 5 & 5 \\ \hline
+9 & 4 & 5 & 6 & 8 & 9 \\ \hline
+12 & 3 & 4 & 4 & 5 & 6 \\ \hline
+15 & 4 & 6 & 8 & 9 & 11 \\ \hline
+18 & 3 & 4 & 5 & 5 & 6 \\ \hline
+21 & 5 & 7 & 9 & 11 & 13 \\ \hline
+24 & 3 & 4 & 5 & 6 & 7 \\ \hline
+27 & 5 & 8 & 10 & 12 & 14 \\ \hline
+30 & 3 & 4 & 6 & 7 & 8 \\ \hline
+33 & 6 & 8 & 11 & 13 & 16 \\ \hline
+36 & 3 & 5 & 6 & 7 & 9 \\ \hline
+39 & 6 & 9 & 12 & 14 & 17 \\ \hline
+42 & 3 & 5 & 6 & 8 & 9 \\ \hline
+45 & 7 & 9 & 12 & 15 & 18 \\ \hline
+48 & 4 & 5 & 7 & 8 & 10 \\ \hline
+51 & 7 & 10 & 13 & 16 & 20 \\ \hline
+54 & 4 & 5 & 7 & 9 & 10 \\ \hline
+57 & 7 & 11 & 14 & 17 & 21 \\ \hline
+60 & 4 & 6 & 7 & 9 & 11 \\ \hline
+63 & 8 & 11 & 15 & 18 & 22 \\ \hline
+66 & 4 & 6 & 8 & 9 & 11 \\ \hline
+69 & 8 & 12 & 16 & 20 & 23 \\ \hline
+72 & 4 & 6 & 8 & 10 & 12 \\ \hline
+75 & 8 & 12 & 16 & 21 & 25 \\ \hline
+78 & 4 & 6 & 8 & 10 & 12 \\ \hline
+81 & 9 & 13 & 17 & 22 & 26 \\ \hline
+84 & 4 & 6 & 9 & 11 & 13 \\ \hline
+87 & 9 & 14 & 18 & 23 & 27 \\ \hline
+90 & 5 & 7 & 9 & 11 & 13 \\ \hline
+93 & 9 & 14 & 19 & 24 & 28 \\ \hline
+96 & 5 & 7 & 9 & 11 & 13 \\ \hline
+99 & 10 & 15 & 20 & 25 & 30 \\ \hline
+\end{tabular}
+\caption{Iteracje (wiersze - $n$, kolumny - precyzja, kryterium stopu 2)}
+\end{table}
+
+Dla drugiego, bardziej rygorystycznego kryterium stopu, które dawało bardziej dokładne wyniki, potrzeba więcej iteracji.
+TODO TODO TODO TODO TODO TODO TODO dziwne rzeczy
+Poniżej tabele czasu w sekundach:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.01 & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+3 & 0.0000780 & 0.0000448 & 0.0000472 & 0.0000458 & 0.0000517 \\ \hline
+6 & 0.0000417 & 0.0000408 & 0.0000489 & 0.0000474 & 0.0000529 \\ \hline
+9 & 0.0000491 & 0.0000546 & 0.0000844 & 0.0000648 & 0.0000913 \\ \hline
+12 & 0.0000968 & 0.0000885 & 0.0000570 & 0.0000489 & 0.0000684 \\ \hline
+15 & 0.0000699 & 0.0000813 & 0.0001144 & 0.0001199 & 0.0001314 \\ \hline
+18 & 0.0000849 & 0.0000935 & 0.0000906 & 0.0000949 & 0.0000985 \\ \hline
+21 & 0.0000982 & 0.0001135 & 0.0001256 & 0.0001726 & 0.0001733 \\ \hline
+24 & 0.0001216 & 0.0001211 & 0.0000787 & 0.0000618 & 0.0001085 \\ \hline
+27 & 0.0000861 & 0.0001016 & 0.0000982 & 0.0000942 & 0.0001187 \\ \hline
+30 & 0.0000877 & 0.0000546 & 0.0000520 & 0.0000639 & 0.0000706 \\ \hline
+33 & 0.0001032 & 0.0000787 & 0.0000854 & 0.0001161 & 0.0001287 \\ \hline
+36 & 0.0000999 & 0.0000579 & 0.0000684 & 0.0001333 & 0.0001595 \\ \hline
+39 & 0.0001290 & 0.0001240 & 0.0001693 & 0.0003297 & 0.0002129 \\ \hline
+42 & 0.0000997 & 0.0000844 & 0.0000913 & 0.0001214 & 0.0001264 \\ \hline
+45 & 0.0001349 & 0.0001912 & 0.0001476 & 0.0001285 & 0.0001521 \\ \hline
+48 & 0.0001414 & 0.0000958 & 0.0000772 & 0.0000844 & 0.0000889 \\ \hline
+51 & 0.0001183 & 0.0000882 & 0.0001013 & 0.0001457 & 0.0001976 \\ \hline
+54 & 0.0001018 & 0.0001450 & 0.0000970 & 0.0001013 & 0.0001028 \\ \hline
+57 & 0.0000958 & 0.0002372 & 0.0002117 & 0.0001788 & 0.0001700 \\ \hline
+60 & 0.0000885 & 0.0000684 & 0.0000744 & 0.0000944 & 0.0000947 \\ \hline
+63 & 0.0000961 & 0.0000930 & 0.0001376 & 0.0001421 & 0.0001695 \\ \hline
+66 & 0.0000925 & 0.0001447 & 0.0001774 & 0.0003414 & 0.0001473 \\ \hline
+69 & 0.0001411 & 0.0001118 & 0.0001271 & 0.0001538 & 0.0001822 \\ \hline
+72 & 0.0001171 & 0.0000894 & 0.0000792 & 0.0000944 & 0.0001037 \\ \hline
+75 & 0.0001104 & 0.0001221 & 0.0001862 & 0.0002100 & 0.0002534 \\ \hline
+78 & 0.0001009 & 0.0000868 & 0.0000794 & 0.0000951 & 0.0001078 \\ \hline
+81 & 0.0001085 & 0.0001206 & 0.0001822 & 0.0002015 & 0.0002115 \\ \hline
+84 & 0.0000956 & 0.0001671 & 0.0001891 & 0.0001683 & 0.0001302 \\ \hline
+87 & 0.0001163 & 0.0001311 & 0.0002174 & 0.0002227 & 0.0002313 \\ \hline
+90 & 0.0001037 & 0.0000834 & 0.0000963 & 0.0001490 & 0.0001853 \\ \hline
+93 & 0.0001476 & 0.0002410 & 0.0002975 & 0.0003548 & 0.0002646 \\ \hline
+96 & 0.0003643 & 0.0001197 & 0.0001373 & 0.0001588 & 0.0032578 \\ \hline
+99 & 0.0001633 & 0.0001853 & 0.0002728 & 0.0038943 & 0.0006762 \\ \hline
+\end{tabular}
+\caption{Czas (wiersze - $n$, kolumny - precyzja, kryterium stopu 1)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+& 0.01 & 0.001 & 0.0001 & 0.00001 & 0.000001 \\ \hline
+3 & 0.0000796 & 0.0000470 & 0.0000427 & 0.0000479 & 0.0000536 \\ \hline
+6 & 0.0000727 & 0.0000520 & 0.0000446 & 0.0000494 & 0.0000730 \\ \hline
+9 & 0.0000932 & 0.0000651 & 0.0000727 & 0.0000725 & 0.0000756 \\ \hline
+12 & 0.0000398 & 0.0000472 & 0.0000443 & 0.0000937 & 0.0000641 \\ \hline
+15 & 0.0001044 & 0.0001171 & 0.0000820 & 0.0000830 & 0.0000987 \\ \hline
+18 & 0.0000865 & 0.0000930 & 0.0000558 & 0.0000536 & 0.0000610 \\ \hline
+21 & 0.0001142 & 0.0000925 & 0.0001504 & 0.0001948 & 0.0002241 \\ \hline
+24 & 0.0001163 & 0.0000813 & 0.0000603 & 0.0000808 & 0.0000703 \\ \hline
+27 & 0.0001273 & 0.0000923 & 0.0001111 & 0.0001063 & 0.0001755 \\ \hline
+30 & 0.0001392 & 0.0001013 & 0.0000725 & 0.0000694 & 0.0000761 \\ \hline
+33 & 0.0001624 & 0.0001304 & 0.0001061 & 0.0001149 & 0.0001380 \\ \hline
+36 & 0.0000765 & 0.0000594 & 0.0000627 & 0.0000708 & 0.0000842 \\ \hline
+39 & 0.0001023 & 0.0000927 & 0.0001106 & 0.0001523 & 0.0001698 \\ \hline
+42 & 0.0001166 & 0.0000808 & 0.0001507 & 0.0001431 & 0.0001223 \\ \hline
+45 & 0.0001380 & 0.0001066 & 0.0001152 & 0.0001347 & 0.0001695 \\ \hline
+48 & 0.0001228 & 0.0001440 & 0.0000966 & 0.0000846 & 0.0000963 \\ \hline
+51 & 0.0001216 & 0.0001040 & 0.0001245 & 0.0001481 & 0.0001786 \\ \hline
+54 & 0.0000899 & 0.0000670 & 0.0000882 & 0.0000932 & 0.0001025 \\ \hline
+57 & 0.0001216 & 0.0001216 & 0.0001619 & 0.0002038 & 0.0002418 \\ \hline
+60 & 0.0001149 & 0.0001762 & 0.0001841 & 0.0001338 & 0.0001216 \\ \hline
+63 & 0.0001347 & 0.0001431 & 0.0001636 & 0.0002277 & 0.0002177 \\ \hline
+66 & 0.0000963 & 0.0001159 & 0.0001125 & 0.0001028 & 0.0001273 \\ \hline
+69 & 0.0001595 & 0.0001693 & 0.0002151 & 0.0002468 & 0.0002868 \\ \hline
+72 & 0.0001111 & 0.0001543 & 0.0001426 & 0.0001285 & 0.0001285 \\ \hline
+75 & 0.0001392 & 0.0001483 & 0.0001729 & 0.0002184 & 0.0003138 \\ \hline
+78 & 0.0001016 & 0.0001028 & 0.0001259 & 0.0001574 & 0.0002811 \\ \hline
+81 & 0.0002005 & 0.0001626 & 0.0001955 & 0.0002406 & 0.0002906 \\ \hline
+84 & 0.0001760 & 0.0001116 & 0.0001228 & 0.0001292 & 0.0001526 \\ \hline
+87 & 0.0001578 & 0.0002213 & 0.0002964 & 0.0003011 & 0.0003417 \\ \hline
+90 & 0.0001230 & 0.0001068 & 0.0001328 & 0.0001445 & 0.0001645 \\ \hline
+93 & 0.0001602 & 0.0001922 & 0.0002785 & 0.0005682 & 0.0003817 \\ \hline
+96 & 0.0001633 & 0.0001636 & 0.0001891 & 0.0002031 & 0.0026112 \\ \hline
+99 & 0.0002365 & 0.0002961 & 0.0012593 & 0.0026395 & 0.0005212 \\ \hline
+\end{tabular}
+\caption{Czas (wiersze - $n$, kolumny - precyzja, kryterium stopu 2)}
+\end{table}
+
+TODO TODO TODO TODO wnioski z czasu
+
+Teraz pozostaje zbadanie wpływu wektora początkowego. Tutaj zostanie użyte tylko kryterium pierwsze. Zostaną użyte wektory
+początkowe \textbf{x}$\;=[a,a,...,a]$, gdzie $a$ będzie wartościami z zakresu $[-2,2]$.
 
 
 
@@ -57,6 +362,142 @@ Sprawdzone zostanie, czy spełnione są założenia o zbieżności metody dla za
 promienia spektralnego.
 
 \subsection{Opracowanie problemu}
+Promień spektralny jest wartością maksymalną spośród wartości bezwzględnych wartości własnych macierzy, tj.:
+$$\rho(A)=max\{|\lambda_1|,..., |\lambda_n|\}$$
+Wartościami własnymi macierzy nazywamy natomiast pierwiastki wielomianu charakterystycznego tej macierzy:
+$$w_{A}(\lambda)=\det{A- \lambda I}$$
+gdzie \textit{I} jest macierzą jednostkową. Do policzenia wartości własnych wielomianu użyta zostanie funkcja 
+\textit{numpy.linalg.eigvals}.
+
+Niech $\epsilon=x^{(t)}-x$, gdzie $x$ jest wektorem rzeczywistych rozwiązać układu równań. Wówczas macierz $M$ taką, że
+$$\epsilon^{(t)}=M^t \cdot \epsilon^{(0)}$$
+nazywamy macierzą iteracji.
+Macierz iteracji dla metody Jakobiego ma postać
+$$M=D^{-1}(L+U)$$
+Gdzie (niech \textit{A} będzie macierzą układu równań)
+$$A = D + L + U$$
+\textit{D} jest macierzą diagonalną, z diagonalnych elementów macierzy \textit{A}, \textit{L} --- poddiagonalną, 
+\textit{U} --- naddiagonalną. Mając te informację, można łatwo obliczyć promienie spektralne dla macierzy iteracji.
+
+\newpage
+\thispagestyle{empty}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+$n$ & promień \\ \hline
+3 & 0.05843 \\ \hline
+4 & 0.08253 \\ \hline
+5 & 0.10423 \\ \hline
+6 & 0.12398 \\ \hline
+7 & 0.14212 \\ \hline
+8 & 0.15891 \\ \hline
+9 & 0.17455 \\ \hline
+10 & 0.18918 \\ \hline
+11 & 0.20294 \\ \hline
+12 & 0.21593 \\ \hline
+13 & 0.22823 \\ \hline
+14 & 0.23992 \\ \hline
+15 & 0.25105 \\ \hline
+16 & 0.26167 \\ \hline
+17 & 0.27184 \\ \hline
+18 & 0.28159 \\ \hline
+19 & 0.29096 \\ \hline
+20 & 0.29997 \\ \hline
+21 & 0.30865 \\ \hline
+22 & 0.31703 \\ \hline
+23 & 0.32512 \\ \hline
+24 & 0.33295 \\ \hline
+25 & 0.34053 \\ \hline
+26 & 0.34788 \\ \hline
+27 & 0.35502 \\ \hline
+28 & 0.36194 \\ \hline
+29 & 0.36868 \\ \hline
+30 & 0.37523 \\ \hline
+31 & 0.38161 \\ \hline
+32 & 0.38782 \\ \hline
+33 & 0.39388 \\ \hline
+34 & 0.39979 \\ \hline
+35 & 0.40556 \\ \hline
+36 & 0.41120 \\ \hline
+37 & 0.41671 \\ \hline
+38 & 0.42209 \\ \hline
+39 & 0.42736 \\ \hline
+40 & 0.43252 \\ \hline
+41 & 0.43757 \\ \hline
+42 & 0.44252 \\ \hline
+43 & 0.44737 \\ \hline
+44 & 0.45213 \\ \hline
+45 & 0.45680 \\ \hline
+46 & 0.46137 \\ \hline
+47 & 0.46587 \\ \hline
+48 & 0.47028 \\ \hline
+49 & 0.47462 \\ \hline
+50 & 0.47888 \\ \hline
+51 & 0.48306 \\ \hline
+\end{tabular}
+\begin{tabular}{|l|l|}
+\hline
+$n$ & promień \\ \hline
+52 & 0.48718 \\ \hline
+53 & 0.49123 \\ \hline
+54 & 0.49521 \\ \hline
+55 & 0.49913 \\ \hline
+56 & 0.50299 \\ \hline
+57 & 0.50678 \\ \hline
+58 & 0.51052 \\ \hline
+59 & 0.51421 \\ \hline
+60 & 0.51784 \\ \hline
+61 & 0.52141 \\ \hline
+62 & 0.52494 \\ \hline
+63 & 0.52841 \\ \hline
+64 & 0.53184 \\ \hline
+65 & 0.53522 \\ \hline
+66 & 0.53855 \\ \hline
+67 & 0.54184 \\ \hline
+68 & 0.54509 \\ \hline
+69 & 0.54829 \\ \hline
+70 & 0.55146 \\ \hline
+71 & 0.55458 \\ \hline
+72 & 0.55766 \\ \hline
+73 & 0.56071 \\ \hline
+74 & 0.56372 \\ \hline
+75 & 0.56669 \\ \hline
+76 & 0.56963 \\ \hline
+77 & 0.57253 \\ \hline
+78 & 0.57540 \\ \hline
+79 & 0.57823 \\ \hline
+80 & 0.58104 \\ \hline
+81 & 0.58381 \\ \hline
+82 & 0.58655 \\ \hline
+83 & 0.58926 \\ \hline
+84 & 0.59194 \\ \hline
+85 & 0.59460 \\ \hline
+86 & 0.59722 \\ \hline
+87 & 0.59982 \\ \hline
+88 & 0.60239 \\ \hline
+89 & 0.60493 \\ \hline
+90 & 0.60745 \\ \hline
+91 & 0.60994 \\ \hline
+92 & 0.61241 \\ \hline
+93 & 0.61485 \\ \hline
+94 & 0.61727 \\ \hline
+95 & 0.61967 \\ \hline
+96 & 0.62204 \\ \hline
+97 & 0.62439 \\ \hline
+98 & 0.62672 \\ \hline
+99 & 0.62903 \\ \hline
+100 & 0.63131 \\ \hline
+\end{tabular}
+\caption{Promienie spektralne}
+\end{table}
+
+Warunkiem wystarczającym zbieżności metody iteracyjnej jest
+$$\rho(M)<1$$
+
+Jak nietrudno zauważyć, dla wszystkich badanych wartości $n$ promień spektralny macierzy iteracji jest mniejszy
+od jedynki, dla nich metoda jest zbieżna.
 
 \subsection{Wnioski}
 
