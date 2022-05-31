@@ -24,14 +24,14 @@ for n in ran:
         calc_time = stop-start
         norm = np.linalg.norm(X_known-X)
         if prec != 0.000001:
-            # print(f"{norm:.5e}", end=" & ")  # error
-            print(f"{calc_time:.7f}", end=" & ")  # time
+            print(f"{norm:.5e}", end=" & ")  # error
+            # print(f"{calc_time:.7f}", end=" & ")  # time
             # print(f"{iters}", end=" & ")  # iterations
-            res[index].append(calc_time)
+            res[index].append(norm)
         else: 
-            # print(f"{norm:.5e}", end=" \\\\ \\hline\n")  # error
-            print(f"{calc_time:.7f}", end=" \\\\ \\hline\n")  # time
+            print(f"{norm:.5e}", end=" \\\\ \\hline\n")  # error
+            # print(f"{calc_time:.7f}", end=" \\\\ \\hline\n")  # time
             # print(f"{iters}", end=" \\\\ \\hline\n")  # iterations
-            res[index].append(calc_time)
+            res[index].append(norm)
 
 plot_from_array(list(ran), res, [str(i) for i in precs])

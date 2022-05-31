@@ -6,6 +6,7 @@
 \usepackage{float}
 \usepackage{subfig}
 \usepackage{multirow}
+\usepackage{chngpage}
 
 \title{Rozwiązywanie układów równań liniowych metodami iteracyjnymi}
 \author{\textbf{Łukasz Wala}\\
@@ -109,7 +110,7 @@ zera:
 \end{table}
 
 Jak nietrudno było się domyślić, błąd rozwiązania maleje wraz ze malejącą wartością $\rho$ niezależnie od rozmiaru
-macierzy. Ciężko na pierwszy rzut oka zauważyć zależność $n$ oraz błędu (), jednak może być to spowodowane faktem, że program
+macierzy. Ciężko na pierwszy rzut oka zauważyć zależność $n$ oraz błędu, jednak może być to spowodowane faktem, że program
 działa aż do uzyskania pewnej dokładności określonej przez kryteria stopu, więc uzyskanie tej samej dokładności dla 
 dużych macierzy wymaga więcej iteracji lub czasu, co zostanie zbadane później.
 
@@ -249,12 +250,8 @@ Teraz zbadane zostaną liczby iteracji/czas działania dla poszczególnych precy
 \caption{Iteracje (wiersze - $n$, kolumny - precyzja, kryterium stopu 1)}
 \end{table}
 
-Lepsza precyzja wymaga wicej iteracji, co jest zgodne z intuicją. Oprócz tego potwierdzają się wcześniejsze przypuszczenia
-o tym, że przyczyną dobrej precyzji dla większych macierzy jest większa liczba iteracji. Można też zauważyć, że przyrost
-liczby iteracji w zależności od $n$ jest większy dla lepszych precyzji.
-
 Zgodnie z poprzednimi przypuszczeniami, liczba iteracji rośnie wraz ze wzrastającą precyzją. Co jednak bardzo zastawiające, 
-przyrost jest jakby niezależny dla nieparzystych oraz parzystych wartości $n$, tzn. gdyby odseparować na osobnych wykresach
+przyrost jest niejako niezależny dla nieparzystych oraz parzystych wartości $n$, tzn. gdyby odseparować na osobnych wykresach
 liczby iteracji dla wartości parzystych i nieparzystych $n$, oba te wykresy byłyby niemalejące. Podobne zjawisko występuje
 dla drugiego kryterium stopu.
 
@@ -397,7 +394,7 @@ Poniżej tabele czasu w sekundach:
 
 Czas działania jest bardzo niski (z pewnymi odstępstwami dla większych wartości $n$), co jest zasługą użycia operacji
 macierzowych dostępnych w pakiecie numpy. W ogólności prezentuje on niewielką tendencję rosnącą z pewnymi nieregularnymi
-skokami dla dużych wartości $n$, gdzie prezentują podobną tendencję jak w przypadku liczby iteracji. 
+skokami dla dużych wartości $n$, gdzie prezentują podobne zjawisko jak w przypadku liczby iteracji. 
 Efekt ten był jednak mocno uzależniony od próby.
 
 \begin{table}[H]
@@ -467,9 +464,183 @@ Dla kryterium drugiego czasy działania są bardzo podobne, z bardzo nieznaczną
 \end{figure}
 
 Teraz pozostaje zbadanie wpływu wektora początkowego. Tutaj zostanie użyte tylko kryterium pierwsze oraz precyzja $\rho=10^{-6}$. Użyte wektory
-początkowe przyjmą postać \textbf{x}$\;=[a,a,...,a]$, gdzie $a$ będzie wartościami z zakresu $[-2,2]$.
+początkowe przyjmą postać \textbf{x}$\;=[a,a,...,a]$, gdzie $a$ będzie wartościami z zakresu $[-5,5]$.
 
+\begin{table}[H]
+\centering
+\begin{adjustwidth}{-0.9in}{-.7in} 
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+& 10 & 25 & 40 & 65 & 100 & 150 & 250 \\ \hline
+-5.000 & 3.31058e-08 & 3.22290e-08 & 5.75751e-08 & 4.39648e-08 & 5.06492e-08 & 6.91441e-08 & 6.49123e-08 \\ \hline
+-4.744 & 3.14080e-08 & 8.98168e-08 & 5.46226e-08 & 7.79389e-08 & 7.61143e-08 & 6.55983e-08 & 6.15835e-08 \\ \hline
+-4.487 & 2.97103e-08 & 8.49908e-08 & 5.16700e-08 & 7.37345e-08 & 7.20000e-08 & 6.20524e-08 & 5.82547e-08 \\ \hline
+-4.231 & 2.80126e-08 & 8.01647e-08 & 4.87174e-08 & 6.95301e-08 & 6.78858e-08 & 5.85066e-08 & 6.49249e-08 \\ \hline
+-3.974 & 2.63148e-08 & 7.53386e-08 & 4.57648e-08 & 6.53257e-08 & 6.37715e-08 & 5.49607e-08 & 6.09901e-08 \\ \hline
+-3.718 & 2.46171e-08 & 7.05126e-08 & 4.28123e-08 & 6.11213e-08 & 5.96572e-08 & 7.09250e-08 & 6.74420e-08 \\ \hline
+-3.462 & 2.29194e-08 & 6.56865e-08 & 3.98597e-08 & 5.69169e-08 & 5.55429e-08 & 6.60336e-08 & 6.27908e-08 \\ \hline
+-3.205 & 2.12216e-08 & 6.08604e-08 & 8.53299e-08 & 5.27126e-08 & 5.14286e-08 & 6.11422e-08 & 5.81396e-08 \\ \hline
+-2.949 & 1.03202e-07 & 5.60344e-08 & 7.85035e-08 & 4.85082e-08 & 7.49462e-08 & 5.62508e-08 & 6.32259e-08 \\ \hline
+-2.692 & 9.42277e-08 & 5.12083e-08 & 7.16771e-08 & 4.43038e-08 & 6.84291e-08 & 7.08485e-08 & 5.77280e-08 \\ \hline
+-2.436 & 8.52536e-08 & 4.63822e-08 & 6.48507e-08 & 7.49213e-08 & 6.19121e-08 & 6.41010e-08 & 6.17384e-08 \\ \hline
+-2.179 & 7.62795e-08 & 4.15562e-08 & 5.80243e-08 & 6.70658e-08 & 5.53950e-08 & 5.73536e-08 & 6.52958e-08 \\ \hline
+-1.923 & 6.73055e-08 & 3.67301e-08 & 5.11980e-08 & 5.92104e-08 & 4.88780e-08 & 6.98093e-08 & 5.76140e-08 \\ \hline
+-1.667 & 5.83314e-08 & 3.19040e-08 & 4.43716e-08 & 5.13550e-08 & 6.71000e-08 & 6.05014e-08 & 5.90221e-08 \\ \hline
+-1.410 & 4.93573e-08 & 7.95165e-08 & 8.68051e-08 & 8.12741e-08 & 5.67769e-08 & 7.06195e-08 & 5.90335e-08 \\ \hline
+-1.154 & 4.03833e-08 & 6.53444e-08 & 7.10223e-08 & 6.65971e-08 & 7.35832e-08 & 5.77796e-08 & 6.74867e-08 \\ \hline
+-0.897 & 3.14092e-08 & 5.11723e-08 & 5.52396e-08 & 5.19201e-08 & 5.72313e-08 & 6.19927e-08 & 6.20452e-08 \\ \hline
+-0.641 & 2.24352e-08 & 3.70002e-08 & 3.94568e-08 & 6.95847e-08 & 6.47535e-08 & 6.10834e-08 & 6.19227e-08 \\ \hline
+-0.385 & 7.11542e-08 & 6.70363e-08 & 5.47349e-08 & 7.87757e-08 & 6.15420e-08 & 6.97421e-08 & 6.13628e-08 \\ \hline
+-0.128 & 2.37181e-08 & 7.46445e-08 & 4.21827e-08 & 5.14558e-08 & 5.14712e-08 & 6.10246e-08 & 6.59519e-08 \\ \hline
+0.128 & 2.37181e-08 & 4.75681e-08 & 4.21827e-08 & 4.42720e-08 & 5.14712e-08 & 6.10246e-08 & 6.59519e-08 \\ \hline
+0.385 & 7.11542e-08 & 5.78159e-08 & 5.47349e-08 & 7.49308e-08 & 6.15420e-08 & 6.97421e-08 & 6.13628e-08 \\ \hline
+0.641 & 2.24352e-08 & 3.38603e-08 & 3.94568e-08 & 6.75268e-08 & 6.47535e-08 & 6.10834e-08 & 6.19227e-08 \\ \hline
+0.897 & 3.14092e-08 & 4.80324e-08 & 5.52396e-08 & 5.08187e-08 & 5.72313e-08 & 6.19927e-08 & 6.20452e-08 \\ \hline
+1.154 & 4.03833e-08 & 6.22045e-08 & 7.10223e-08 & 6.54957e-08 & 7.35832e-08 & 5.77796e-08 & 6.74867e-08 \\ \hline
+1.410 & 4.93573e-08 & 7.63766e-08 & 8.68051e-08 & 8.01727e-08 & 5.67769e-08 & 7.06195e-08 & 5.90335e-08 \\ \hline
+1.667 & 5.83314e-08 & 9.05487e-08 & 4.43716e-08 & 5.07655e-08 & 6.71000e-08 & 6.05014e-08 & 5.90221e-08 \\ \hline
+1.923 & 6.73055e-08 & 3.56609e-08 & 5.11980e-08 & 5.86209e-08 & 4.88780e-08 & 6.98093e-08 & 5.76140e-08 \\ \hline
+2.179 & 7.62795e-08 & 4.04869e-08 & 5.80243e-08 & 6.64763e-08 & 5.53950e-08 & 5.73536e-08 & 6.52958e-08 \\ \hline
+2.436 & 8.52536e-08 & 4.53130e-08 & 6.48507e-08 & 7.43318e-08 & 6.19121e-08 & 6.41010e-08 & 6.17384e-08 \\ \hline
+2.692 & 9.42277e-08 & 5.01391e-08 & 7.16771e-08 & 4.39883e-08 & 6.84291e-08 & 7.08485e-08 & 5.77280e-08 \\ \hline
+2.949 & 1.03202e-07 & 5.49651e-08 & 7.85035e-08 & 4.81927e-08 & 7.49462e-08 & 5.62508e-08 & 6.32259e-08 \\ \hline
+3.205 & 2.12216e-08 & 5.97912e-08 & 8.53299e-08 & 5.23970e-08 & 5.14286e-08 & 6.11422e-08 & 5.81396e-08 \\ \hline
+3.462 & 2.29194e-08 & 6.46173e-08 & 3.98597e-08 & 5.66014e-08 & 5.55429e-08 & 6.60336e-08 & 6.27908e-08 \\ \hline
+3.718 & 2.46171e-08 & 6.94433e-08 & 4.28123e-08 & 6.08058e-08 & 5.96572e-08 & 7.09250e-08 & 6.74420e-08 \\ \hline
+3.974 & 2.63148e-08 & 7.42694e-08 & 4.57648e-08 & 6.50102e-08 & 6.37715e-08 & 5.49607e-08 & 6.09901e-08 \\ \hline
+4.231 & 2.80126e-08 & 7.90955e-08 & 4.87174e-08 & 6.92146e-08 & 6.78858e-08 & 5.85066e-08 & 6.49249e-08 \\ \hline
+4.487 & 2.97103e-08 & 8.39215e-08 & 5.16700e-08 & 7.34190e-08 & 7.20000e-08 & 6.20524e-08 & 5.82547e-08 \\ \hline
+4.744 & 3.14080e-08 & 8.87476e-08 & 5.46226e-08 & 7.76234e-08 & 7.61143e-08 & 6.55983e-08 & 6.15835e-08 \\ \hline
+5.000 & 3.31058e-08 & 3.18649e-08 & 5.75751e-08 & 4.37959e-08 & 5.06492e-08 & 6.91441e-08 & 6.49123e-08 \\ \hline
+\end{tabular}
+\end{adjustwidth}
+\caption{Błędy (wiersze - $a$, kolumny - $n$, kryterium stopu 1)}
+\end{table}
 
+Nie widać dużego wpływu wektora początkowego na ostateczną precyzję, może jednak jego wybór odzwierciedla się w liczbie iteracji
+i czasie działania:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/plot_7.png}
+    \caption{Liczba iteracji na poniższej tabeli}
+\end{figure}
+
+I rzeczywiście na podstawie wykresu można zauważyć, że im bliżej zera, tym mniej potrzeba iteracji do osiągnięcia akceptowalnego
+wyniku, więc odległość wektora początkowego ma wpływ na liczbę iteracji. Do tego można przypuszczać, że im większa odległość
+wektora początkowego (w sensie normy euklidesowej), tym większa liczba iteracji.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+& 10 & 25 & 40 & 65 & 100 & 150 & 250 \\ \hline
+-5.000 & 12 & 19 & 24 & 33 & 45 & 64 & 125 \\ \hline
+-4.744 & 12 & 18 & 24 & 32 & 44 & 64 & 125 \\ \hline
+-4.487 & 12 & 18 & 24 & 32 & 44 & 64 & 125 \\ \hline
+-4.231 & 12 & 18 & 24 & 32 & 44 & 64 & 124 \\ \hline
+-3.974 & 12 & 18 & 24 & 32 & 44 & 64 & 124 \\ \hline
+-3.718 & 12 & 18 & 24 & 32 & 44 & 63 & 123 \\ \hline
+-3.462 & 12 & 18 & 24 & 32 & 44 & 63 & 123 \\ \hline
+-3.205 & 12 & 18 & 23 & 32 & 44 & 63 & 123 \\ \hline
+-2.949 & 11 & 18 & 23 & 32 & 43 & 63 & 122 \\ \hline
+-2.692 & 11 & 18 & 23 & 32 & 43 & 62 & 122 \\ \hline
+-2.436 & 11 & 18 & 23 & 31 & 43 & 62 & 121 \\ \hline
+-2.179 & 11 & 18 & 23 & 31 & 43 & 62 & 120 \\ \hline
+-1.923 & 11 & 18 & 23 & 31 & 43 & 61 & 120 \\ \hline
+-1.667 & 11 & 18 & 23 & 31 & 42 & 61 & 119 \\ \hline
+-1.410 & 11 & 17 & 22 & 30 & 42 & 60 & 118 \\ \hline
+-1.154 & 11 & 17 & 22 & 30 & 41 & 60 & 116 \\ \hline
+-0.897 & 11 & 17 & 22 & 30 & 41 & 59 & 115 \\ \hline
+-0.641 & 11 & 17 & 22 & 29 & 40 & 58 & 113 \\ \hline
+-0.385 & 10 & 16 & 21 & 28 & 39 & 56 & 110 \\ \hline
+-0.128 & 10 & 15 & 20 & 27 & 37 & 53 & 103 \\ \hline
+0.128 & 10 & 15 & 20 & 27 & 37 & 53 & 103 \\ \hline
+0.385 & 10 & 16 & 21 & 28 & 39 & 56 & 110 \\ \hline
+0.641 & 11 & 17 & 22 & 29 & 40 & 58 & 113 \\ \hline
+0.897 & 11 & 17 & 22 & 30 & 41 & 59 & 115 \\ \hline
+1.154 & 11 & 17 & 22 & 30 & 41 & 60 & 116 \\ \hline
+1.410 & 11 & 17 & 22 & 30 & 42 & 60 & 118 \\ \hline
+1.667 & 11 & 17 & 23 & 31 & 42 & 61 & 119 \\ \hline
+1.923 & 11 & 18 & 23 & 31 & 43 & 61 & 120 \\ \hline
+2.179 & 11 & 18 & 23 & 31 & 43 & 62 & 120 \\ \hline
+2.436 & 11 & 18 & 23 & 31 & 43 & 62 & 121 \\ \hline
+2.692 & 11 & 18 & 23 & 32 & 43 & 62 & 122 \\ \hline
+2.949 & 11 & 18 & 23 & 32 & 43 & 63 & 122 \\ \hline
+3.205 & 12 & 18 & 23 & 32 & 44 & 63 & 123 \\ \hline
+3.462 & 12 & 18 & 24 & 32 & 44 & 63 & 123 \\ \hline
+3.718 & 12 & 18 & 24 & 32 & 44 & 63 & 123 \\ \hline
+3.974 & 12 & 18 & 24 & 32 & 44 & 64 & 124 \\ \hline
+4.231 & 12 & 18 & 24 & 32 & 44 & 64 & 124 \\ \hline
+4.487 & 12 & 18 & 24 & 32 & 44 & 64 & 125 \\ \hline
+4.744 & 12 & 18 & 24 & 32 & 44 & 64 & 125 \\ \hline
+5.000 & 12 & 19 & 24 & 33 & 45 & 64 & 125 \\ \hline
+\end{tabular}
+\caption{Liczba iteracji(wiersze - $a$, kolumny - $n$, kryterium stopu 1)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{adjustwidth}{-0.5in}{-.7in} 
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+& 10 & 25 & 40 & 65 & 100 & 150 & 250 \\ \hline
+-5.000 & 0.0001397 & 0.0001760 & 0.0002053 & 0.0003209 & 0.0007567 & 0.0014353 & 0.0032563 \\ \hline
+-4.744 & 0.0002179 & 0.0002465 & 0.0004268 & 0.0005522 & 0.0014753 & 0.0013766 & 0.0038245 \\ \hline
+-4.487 & 0.0002415 & 0.0002553 & 0.0003819 & 0.0005386 & 0.0009477 & 0.0093334 & 0.0033667 \\ \hline
+-4.231 & 0.0002143 & 0.0002434 & 0.0003440 & 0.0005283 & 0.0112736 & 0.0014968 & 0.0033636 \\ \hline
+-3.974 & 0.0002005 & 0.0002449 & 0.0003366 & 0.0005553 & 0.0048840 & 0.0013406 & 0.0037315 \\ \hline
+-3.718 & 0.0001972 & 0.0002353 & 0.0003324 & 0.0004776 & 0.0007203 & 0.0012982 & 0.0079567 \\ \hline
+-3.462 & 0.0001998 & 0.0004389 & 0.0003178 & 0.0004764 & 0.0007288 & 0.0013504 & 0.0033059 \\ \hline
+-3.205 & 0.0002010 & 0.0004783 & 0.0003824 & 0.0005205 & 0.0008378 & 0.0015407 & 0.0046799 \\ \hline
+-2.949 & 0.0001893 & 0.0002389 & 0.0003161 & 0.0004809 & 0.0017903 & 0.0013642 & 0.0046299 \\ \hline
+-2.692 & 0.0001855 & 0.0002372 & 0.0003273 & 0.0005615 & 0.0007365 & 0.0074754 & 0.0032718 \\ \hline
+-2.436 & 0.0001872 & 0.0002370 & 0.0003216 & 0.0005529 & 0.0015552 & 0.0013020 & 0.0036619 \\ \hline
+-2.179 & 0.0001872 & 0.0002344 & 0.0003204 & 0.0004640 & 0.0007064 & 0.0012741 & 0.0041010 \\ \hline
+-1.923 & 0.0001864 & 0.0002372 & 0.0003085 & 0.0004556 & 0.0006943 & 0.0013046 & 0.0041862 \\ \hline
+-1.667 & 0.0001974 & 0.0002358 & 0.0003273 & 0.0004895 & 0.0010626 & 0.0012822 & 0.0046384 \\ \hline
+-1.410 & 0.0001867 & 0.0002236 & 0.0003130 & 0.0005209 & 0.0007317 & 0.0026822 & 0.0032113 \\ \hline
+-1.154 & 0.0001838 & 0.0002329 & 0.0002983 & 0.0005085 & 0.0051436 & 0.0012820 & 0.0032787 \\ \hline
+-0.897 & 0.0001891 & 0.0003557 & 0.0002985 & 0.0004573 & 0.0006781 & 0.0012434 & 0.0077679 \\ \hline
+-0.641 & 0.0001869 & 0.0002282 & 0.0002959 & 0.0004258 & 0.0006704 & 0.0012670 & 0.0040302 \\ \hline
+-0.385 & 0.0001743 & 0.0002143 & 0.0002854 & 0.0004554 & 0.0008335 & 0.0012164 & 0.0044274 \\ \hline
+-0.128 & 0.0001750 & 0.0002055 & 0.0002847 & 0.0004559 & 0.0006688 & 0.0025673 & 0.0029023 \\ \hline
+0.128 & 0.0001748 & 0.0002010 & 0.0002840 & 0.0004528 & 0.0006824 & 0.0011675 & 0.0027463 \\ \hline
+0.385 & 0.0001740 & 0.0002124 & 0.0003145 & 0.0004838 & 0.0007639 & 0.0012105 & 0.0032833 \\ \hline
+0.641 & 0.0001917 & 0.0002270 & 0.0003142 & 0.0005157 & 0.0007012 & 0.0018809 & 0.0030971 \\ \hline
+0.897 & 0.0005555 & 0.0002444 & 0.0003259 & 0.0023410 & 0.0020270 & 0.0024209 & 0.0030520 \\ \hline
+1.154 & 0.0001893 & 0.0002255 & 0.0003061 & 0.0004423 & 0.0007567 & 0.0018985 & 0.0030704 \\ \hline
+1.410 & 0.0001886 & 0.0002244 & 0.0002959 & 0.0004425 & 0.0014386 & 0.0012562 & 0.0036941 \\ \hline
+1.667 & 0.0001872 & 0.0002241 & 0.0003488 & 0.0005102 & 0.0007288 & 0.0019057 & 0.0031283 \\ \hline
+1.923 & 0.0001869 & 0.0002356 & 0.0003245 & 0.0005565 & 0.0013964 & 0.0012677 & 0.0032096 \\ \hline
+2.179 & 0.0001860 & 0.0002735 & 0.0003307 & 0.0004992 & 0.0007367 & 0.0064473 & 0.0031512 \\ \hline
+2.436 & 0.0001862 & 0.0002353 & 0.0003242 & 0.0005274 & 0.0117342 & 0.0014005 & 0.0032623 \\ \hline
+2.692 & 0.0001860 & 0.0002348 & 0.0003238 & 0.0004735 & 0.0007050 & 0.0013492 & 0.0042241 \\ \hline
+2.949 & 0.0001867 & 0.0002356 & 0.0003078 & 0.0005348 & 0.0008800 & 0.0013418 & 0.0045085 \\ \hline
+3.205 & 0.0001960 & 0.0002370 & 0.0003257 & 0.0005441 & 0.0007608 & 0.0013568 & 0.0032611 \\ \hline
+3.462 & 0.0001974 & 0.0002344 & 0.0003381 & 0.0005329 & 0.0012000 & 0.0013111 & 0.0044508 \\ \hline
+3.718 & 0.0001998 & 0.0002396 & 0.0003402 & 0.0005252 & 0.0016153 & 0.0028496 & 0.0032804 \\ \hline
+3.974 & 0.0002058 & 0.0002387 & 0.0003407 & 0.0005386 & 0.0024178 & 0.0023031 & 0.0035458 \\ \hline
+4.231 & 0.0001972 & 0.0002418 & 0.0003614 & 0.0005524 & 0.0007770 & 0.0059810 & 0.0032744 \\ \hline
+4.487 & 0.0001969 & 0.0002360 & 0.0003517 & 0.0005424 & 0.0023134 & 0.0013502 & 0.0034139 \\ \hline
+4.744 & 0.0001981 & 0.0002358 & 0.0003588 & 0.0005238 & 0.0009696 & 0.0013559 & 0.0033841 \\ \hline
+5.000 & 0.0001981 & 0.0002532 & 0.0003362 & 0.0005553 & 0.0021579 & 0.0013444 & 0.0036995 \\ \hline
+\end{tabular}
+\end{adjustwidth}
+\caption{Czas (wiersze - $a$, kolumny - $n$, kryterium stopu 1)}
+\end{table}
+
+Chciałoby się przypuszczać, że w przypadku czasu działania wystąpi podobne zjawisko jak dla liczby iteracji ---
+mniejsza odległość od rzeczywistego wyniku skutkuje lepszym czasem, jednak wyniki ciężko zinterpretować w taki sposób.
+Do tego wyniki były bardzo niekonsekwentne w zależności od wywołania programu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/plot_8.png}
+    \caption{Czas działania na podstawie powyższej tabeli}
+\end{figure}
+
+\newpage
 
 \section{Problem 2}
 \subsection{Opis problemu}
@@ -617,6 +788,12 @@ Jak nietrudno zauważyć, dla wszystkich badanych wartości $n$ promień spektra
 od jedynki, dla nich metoda jest zbieżna.
 
 \subsection{Wnioski}
-
+Metoda Jakobiego jest jedną z najprostszych metod iteracyjnych pozwalających na poprawienie znanego, ale niedokładnego rozwiązania
+układu równań liniowych. Na jakość uzyskanego rozwiązania wpływa głównie wybrana precyzja, natomiast liczba iteracji
+i czas działania zależą od wybranej precyzji, rozmiaru macierzy oraz tego, jak blisko wektor początkowy znajduje się rzeczywistego 
+rozwiązania. Spośród dwóch wykorzystanych tutaj kryteriów, drugie okazało się być bardziej rygorystyczne i skutkowało
+dokładniejszymi wynikami pomimo takiej samej precyzji.
+Warunkiem wystarczającym zbieżności metody Jakobiego dla danego układu równań jest to, żeby promień 
+spektralny był mniejszy od jedynki.
 
 \end{document}
