@@ -19,7 +19,7 @@ for n in ran:
         B = A @ X_known
         X_start = np.array([0 for _ in range(n)]).astype(np.float64)
         start = time.time()
-        X, iters = jacobi_matrix(A, B, X_start, 2, prec)
+        X, iters = jacobi_matrix(A, B, X_start, 1, prec)
         stop = time.time()
         calc_time = stop-start
         norm = np.linalg.norm(X_known-X)
@@ -27,11 +27,11 @@ for n in ran:
             print(f"{norm:.5e}", end=" & ")  # error
             # print(f"{calc_time:.7f}", end=" & ")  # time
             # print(f"{iters}", end=" & ")  # iterations
-            res[index].append(norm)
+            res[index].append(iters)
         else: 
             print(f"{norm:.5e}", end=" \\\\ \\hline\n")  # error
             # print(f"{calc_time:.7f}", end=" \\\\ \\hline\n")  # time
             # print(f"{iters}", end=" \\\\ \\hline\n")  # iterations
-            res[index].append(norm)
+            res[index].append(iters)
 
 plot_from_array(list(ran), res, [str(i) for i in precs])

@@ -46,7 +46,7 @@ Użyte kryteria stopu (norma euklidesowa):
 \subsection{Opracowanie problemu}
 Program użyty do rozwiązania układu został napisany w języku Python z użyciem pakietu numpy. Poniżej tabele zależności
 liczby $n$ oraz precyzji (błąd wyniku, liczba iteracji oraz czas obliczeń) dla wektora początkowego zawierającego same
-zera:
+zera oraz rzeczywiste rozwiązanie to \textbf{x}\:=$[1,-1,1,-1,...]$:
 
 \newpage
 \thispagestyle{empty}
@@ -653,7 +653,7 @@ promienia spektralnego.
 Promień spektralny jest wartością maksymalną spośród wartości bezwzględnych wartości własnych macierzy, tj.:
 $$\rho(A)=max\{|\lambda_1|,..., |\lambda_n|\}$$
 Wartościami własnymi macierzy nazywamy natomiast pierwiastki wielomianu charakterystycznego tej macierzy:
-$$w_{A}(\lambda)=\det{A- \lambda I}$$
+$$w_{A}(\lambda)=\det({A- \lambda I})$$
 gdzie \textit{I} jest macierzą jednostkową. Do policzenia wartości własnych wielomianu użyta zostanie funkcja 
 \textit{numpy.linalg.eigvals}.
 
